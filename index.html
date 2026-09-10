@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PHYSLAB AI — Физика 8–9 класс</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #090d18;
+    color: white;
+    min-height: 100vh;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.header {
+    height: 70px;
+    background: #101729;
+    border-bottom: 1px solid #26304a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 35px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #5b8cff;
+}
+
+.header-right {
+    color: #9ca8c3;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 35px 20px 70px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #121d38, #111827);
+    border: 1px solid #263657;
+    border-radius: 25px;
+    padding: 45px;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    color: #5b8cff;
+}
+
+.hero p {
+    color: #aeb9d0;
+    max-width: 700px;
+    line-height: 1.6;
+    font-size: 17px;
+}
+
+.section-title {
+    font-size: 27px;
+    margin: 35px 0 18px;
+}
+
+.grade-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.grade-btn {
+    background: #151e34;
+    border: 1px solid #2c3959;
+    color: #b9c4db;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.grade-btn.active,
+.grade-btn:hover {
+    background: #4169e1;
+    color: white;
+    border-color: #4169e1;
+}
+
+.topics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 15px;
+}
+
+.topic-card {
+    background: #111827;
+    border: 1px solid #26324e;
+    border-radius: 18px;
+    padding: 22px;
+    transition: .2s;
+}
+
+.topic-card:hover {
+    transform: translateY(-3px);
+    border-color: #527cff;
+    background: #141e32;
+}
+
+.topic-number {
+    color: #5b8cff;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.topic-card h3 {
+    margin-bottom: 9px;
+    font-size: 18px;
+}
+
+.topic-card p {
+    color: #8996b2;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+.open-btn {
+    width: 100%;
+    padding: 11px;
+    background: #1b2742;
+    color: white;
+    border: 1px solid #334568;
+    border-radius: 10px;
+}
+
+.open-btn:hover {
+    background: #4169e1;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LESSON */
+
+.lesson {
+    max-width: 950px;
+    margin: auto;
+}
+
+.back-btn {
+    background: #151e34;
+    border: 1px solid #2b3957;
+    color: #cbd4e7;
+    padding: 11px 17px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.lesson-header {
+    background: #121b30;
+    border: 1px solid #293858;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 18px;
+}
+
+.lesson-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.lesson-header p {
+    color: #9aa7c1;
+}
+
+.lesson-box {
+    background: #111827;
+    border: 1px solid #26324e;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 18px;
+}
+
+.lesson-box h2 {
+    margin-bottom: 15px;
+    color: #dce5f8;
+}
+
+.lesson-box p,
+.lesson-box li {
+    color: #b4bfd4;
+    line-height: 1.7;
+}
+
+.lesson-box ul {
+    padding-left: 22px;
+}
+
+.formulas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.formula {
+    background: #0b1221;
+    border: 1px solid #2b3b61;
+    border-radius: 13px;
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    color: #70a0ff;
+    font-weight: bold;
+}
+
+.example {
+    background: #0c1527;
+    border-left: 4px solid #527cff;
+    padding: 18px;
+    border-radius: 8px;
+    color: #c2cce0;
+    line-height: 1.7;
+}
+
+.test-btn {
+    width: 100%;
+    padding: 15px;
+    background: #4169e1;
+    border: none;
+    color: white;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.test-btn:hover {
+    background: #527cff;
+}
+
+/* TEST */
+
+.test {
+    max-width: 800px;
+    margin: auto;
+}
+
+.progress {
+    height: 8px;
+    background: #1a2439;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #527cff;
+    width: 0%;
+    transition: .3s;
+}
+
+.question-box {
+    background: #111827;
+    border: 1px solid #293754;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.question-number {
+    color: #7197ff;
+    margin-bottom: 15px;
+}
+
+.question {
+    font-size: 23px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.answers {
+    display: grid;
+    gap: 12px;
+}
+
+.answer {
+    background: #172137;
+    color: #d9e1f0;
+    border: 1px solid #30405f;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    transition: .2s;
+}
+
+.answer:hover {
+    background: #223150;
+    border-color: #5b8cff;
+}
+
+.answer.correct {
+    background: #173b2b;
+    border-color: #35c77a;
+}
+
+.answer.wrong {
+    background: #402029;
+    border-color: #ef5b68;
+}
+
+.next-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    background: #4169e1;
+    border: none;
+    color: white;
+    border-radius: 11px;
+    font-size: 16px;
+}
+
+.result {
+    text-align: center;
+    background: #111827;
+    border: 1px solid #293754;
+    padding: 45px 25px;
+    border-radius: 22px;
+}
+
+.result-score {
+    font-size: 55px;
+    color: #6591ff;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.result p {
+    color: #9ca8bf;
+    margin-bottom: 25px;
+}
+
+.restart-btn {
+    background: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 11px;
+    padding: 14px 25px;
+}
+
+/* MOBILE */
+
+@media(max-width: 600px) {
+    .header {
+        padding: 0 18px;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .container {
+        padding: 20px 15px 50px;
+    }
+
+    .hero {
+        padding: 28px 22px;
+    }
+
+    .hero h1 {
+        font-size: 31px;
+    }
+
+    .section-title {
+        font-size: 23px;
+    }
+
+    .lesson-header h1 {
+        font-size: 26px;
+    }
+
+    .question {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">PHYS<span>LAB</span> AI</div>
+    <div class="header-right">Физическая лаборатория • 8–9 класс</div>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+
+<section id="home">
+
+    <div class="hero">
+        <h1>Изучай физику <span>умнее</span></h1>
+
+        <p>
+            Конспекты, формулы, примеры и тесты по физике
+            для 8–9 класса. Выбирай тему, изучай материал
+            и сразу проверяй свои знания.
+        </p>
+    </div>
+
+    <h2 class="section-title">Выбери класс</h2>
+
+    <div class="grade-buttons">
+        <button class="grade-btn active" onclick="showGrade(8, this)">
+            8 класс
+        </button>
+
+        <button class="grade-btn" onclick="showGrade(9, this)">
+            9 класс
+        </button>
+    </div>
+
+    <div id="topics8" class="topics"></div>
+    <div id="topics9" class="topics hidden"></div>
+
+</section>
+
+
+<!-- LESSON -->
+
+<section id="lesson" class="lesson hidden">
+
+    <button class="back-btn" onclick="goHome()">
+        ← Назад к темам
+    </button>
+
+    <div id="lessonContent"></div>
+
+</section>
+
+
+<!-- TEST -->
+
+<section id="test" class="test hidden">
+
+    <button class="back-btn" onclick="goHome()">
+        ← Выйти из теста
+    </button>
+
+    <div id="testContent"></div>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* =========================
+   ДАННЫЕ ТЕМ
+========================= */
+
+const topics8 = [
+
+{
+    id: "speed",
+    title: "Механическое движение",
+    description: "Путь, время, скорость и основные формулы движения.",
+
+    theory: `
+        Механическое движение — изменение положения тела
+        относительно других тел с течением времени.
+
+        Чтобы описать движение, используют путь, время и скорость.
+    `,
+
+    formulas: [
+        "v = s / t",
+        "s = v · t",
+        "t = s / v"
+    ],
+
+    example: `
+        Автомобиль проехал 120 км за 2 часа.
+        <br><br>
+        v = s / t = 120 / 2 = <b>60 км/ч</b>.
+    `,
+
+    tests: [
+        {
+            q: "Автомобиль проехал 150 км за 3 часа. Какова его скорость?",
+            a: ["30 км/ч", "40 км/ч", "50 км/ч", "60 км/ч"],
+            correct: 2
+        },
+        {
+            q: "Какая формула используется для нахождения скорости?",
+            a: ["v = s / t", "v = s · t", "v = t / s", "v = m / V"],
+            correct: 0
+        },
+        {
+            q: "Тело движется со скоростью 10 м/с в течение 5 секунд. Какой путь оно пройдет?",
+            a: ["2 м", "15 м", "50 м", "100 м"],
+            correct: 2
+        },
+        {
+            q: "В каких единицах СИ измеряется скорость?",
+            a: ["км", "с", "м/с", "Н"],
+            correct: 2
+        },
+        {
+            q: "Если скорость увеличилась при неизменном времени, путь:",
+            a: ["уменьшится", "увеличится", "останется тем же", "станет равен нулю"],
+            correct: 1
+        }
+    ]
+},
+
+{
+    id: "force",
+    title: "Сила и законы Ньютона",
+    description: "Сила, масса, ускорение и взаимодействие тел.",
+
+    theory: `
+        Сила характеризует взаимодействие тел.
+        Под действием силы тело может изменить скорость
+        или направление движения.
+
+        Второй закон Ньютона связывает силу, массу и ускорение.
+    `,
+
+    formulas: [
+        "F = m · a",
+        "a = F / m",
+        "m = F / a"
+    ],
+
+    example: `
+        На тело массой 5 кг действует сила 20 Н.
+        <br><br>
+        a = F / m = 20 / 5 = <b>4 м/с²</b>.
+    `,
+
+    tests: [
+        {
+            q: "Какая формула соответствует второму закону Ньютона?",
+            a: ["F = m · a", "F = m / a", "F = a / m", "F = m + a"],
+            correct: 0
+        },
+        {
+            q: "На тело массой 2 кг действует сила 10 Н. Каково ускорение?",
+            a: ["2 м/с²", "5 м/с²", "10 м/с²", "20 м/с²"],
+            correct: 1
+        },
+        {
+            q: "В каких единицах измеряется сила?",
+            a: ["Дж", "Вт", "Н", "Па"],
+            correct: 2
+        },
+        {
+            q: "Если масса тела увеличится при той же силе, ускорение:",
+            a: ["увеличится", "уменьшится", "не изменится", "станет нулевым"],
+            correct: 1
+        },
+        {
+            q: "Что происходит при взаимодействии тел?",
+            a: ["Тела действуют друг на друга", "Исчезает масса", "Исчезает время", "Температура всегда повышается"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "pressure",
+    title: "Давление",
+    description: "Давление твердых тел, жидкостей и газов.",
+
+    theory: `
+        Давление показывает, какая сила действует на единицу площади.
+
+        Чем меньше площадь опоры при той же силе,
+        тем больше давление.
+    `,
+
+    formulas: [
+        "p = F / S",
+        "F = p · S",
+        "S = F / p"
+    ],
+
+    example: `
+        Сила 100 Н действует на площадь 2 м².
+        <br><br>
+        p = F / S = 100 / 2 = <b>50 Па</b>.
+    `,
+
+    tests: [
+        {
+            q: "По какой формуле вычисляется давление?",
+            a: ["p = F / S", "p = F · S", "p = S / F", "p = m · g"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется давление?",
+            a: ["Н", "Па", "Дж", "Вт"],
+            correct: 1
+        },
+        {
+            q: "Сила 200 Н действует на площадь 4 м². Давление равно:",
+            a: ["25 Па", "50 Па", "100 Па", "800 Па"],
+            correct: 1
+        },
+        {
+            q: "При уменьшении площади опоры давление при той же силе:",
+            a: ["увеличивается", "уменьшается", "не изменяется", "исчезает"],
+            correct: 0
+        },
+        {
+            q: "Какая величина стоит в числителе формулы p = F / S?",
+            a: ["площадь", "масса", "сила", "время"],
+            correct: 2
+        }
+    ]
+},
+
+{
+    id: "work",
+    title: "Механическая работа",
+    description: "Работа силы, перемещение и мощность.",
+
+    theory: `
+        Механическая работа совершается, когда сила перемещает тело.
+
+        Если сила направлена вдоль движения,
+        работа определяется произведением силы на путь.
+    `,
+
+    formulas: [
+        "A = F · s",
+        "P = A / t",
+        "A = P · t"
+    ],
+
+    example: `
+        Сила 50 Н перемещает тело на 4 м.
+        <br><br>
+        A = F · s = 50 · 4 = <b>200 Дж</b>.
+    `,
+
+    tests: [
+        {
+            q: "Формула механической работы при движении вдоль силы:",
+            a: ["A = F · s", "A = F / s", "A = s / F", "A = m · g"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется работа?",
+            a: ["Вт", "Па", "Дж", "Н"],
+            correct: 2
+        },
+        {
+            q: "Сила 20 Н переместила тело на 5 м. Работа равна:",
+            a: ["4 Дж", "25 Дж", "100 Дж", "200 Дж"],
+            correct: 2
+        },
+        {
+            q: "Что характеризует мощность?",
+            a: ["Работу за единицу времени", "Массу тела", "Площадь", "Температуру"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется мощность?",
+            a: ["Дж", "Вт", "Н", "Па"],
+            correct: 1
+        }
+    ]
+},
+
+{
+    id: "energy",
+    title: "Энергия",
+    description: "Кинетическая и потенциальная энергия.",
+
+    theory: `
+        Энергия — физическая величина, характеризующая способность
+        тела совершать работу.
+
+        Кинетическая энергия связана с движением тела,
+        а потенциальная — с его положением или взаимодействием.
+    `,
+
+    formulas: [
+        "Eк = m · v² / 2",
+        "Eп = m · g · h"
+    ],
+
+    example: `
+        Тело массой 2 кг движется со скоростью 3 м/с.
+        <br><br>
+        Eк = 2 · 3² / 2 = <b>9 Дж</b>.
+    `,
+
+    tests: [
+        {
+            q: "Какая энергия связана с движением тела?",
+            a: ["Потенциальная", "Кинетическая", "Тепловая", "Химическая"],
+            correct: 1
+        },
+        {
+            q: "Формула кинетической энергии:",
+            a: ["E = mgh", "E = mv² / 2", "E = F / S", "E = Pt"],
+            correct: 1
+        },
+        {
+            q: "Потенциальная энергия тела на высоте определяется формулой:",
+            a: ["mgh", "mv² / 2", "F / S", "Fs"],
+            correct: 0
+        },
+        {
+            q: "При увеличении скорости тела его кинетическая энергия:",
+            a: ["уменьшается", "увеличивается", "не меняется", "становится нулевой"],
+            correct: 1
+        },
+        {
+            q: "В каких единицах измеряется энергия?",
+            a: ["Дж", "Н", "Вт", "Па"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "heat",
+    title: "Тепловые явления",
+    description: "Температура, количество теплоты и теплообмен.",
+
+    theory: `
+        Тепловые явления связаны с движением и взаимодействием частиц вещества.
+
+        Тепло может передаваться от одного тела к другому
+        посредством теплопроводности, конвекции и излучения.
+    `,
+
+    formulas: [
+        "Q = c · m · Δt",
+        "Δt = t₂ − t₁"
+    ],
+
+    example: `
+        Для нагревания вещества массой m используют формулу:
+        <br><br>
+        Q = c · m · Δt.
+        <br><br>
+        Здесь c — удельная теплоёмкость вещества.
+    `,
+
+    tests: [
+        {
+            q: "Что показывает температура?",
+            a: ["Степень нагретости тела", "Массу", "Площадь", "Силу"],
+            correct: 0
+        },
+        {
+            q: "Формула количества теплоты при нагревании:",
+            a: ["Q = cmΔt", "Q = F/S", "Q = mv²/2", "Q = Fs"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется количество теплоты?",
+            a: ["Н", "Дж", "Вт", "Па"],
+            correct: 1
+        },
+        {
+            q: "Как называется передача тепла потоками жидкости или газа?",
+            a: ["Излучение", "Конвекция", "Трение", "Деформация"],
+            correct: 1
+        },
+        {
+            q: "При нагревании тела его температура обычно:",
+            a: ["увеличивается", "уменьшается", "всегда равна нулю", "не может изменяться"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "electricity",
+    title: "Электрический ток",
+    description: "Сила тока, напряжение, сопротивление и закон Ома.",
+
+    theory: `
+        Электрический ток — упорядоченное движение заряженных частиц.
+
+        Основными величинами электрической цепи являются
+        сила тока, напряжение и сопротивление.
+    `,
+
+    formulas: [
+        "I = U / R",
+        "U = I · R",
+        "R = U / I",
+        "P = U · I"
+    ],
+
+    example: `
+        Напряжение в цепи 12 В, сопротивление 4 Ом.
+        <br><br>
+        I = U / R = 12 / 4 = <b>3 А</b>.
+    `,
+
+    tests: [
+        {
+            q: "Как называется упорядоченное движение заряженных частиц?",
+            a: ["Электрический ток", "Давление", "Теплопередача", "Механическая работа"],
+            correct: 0
+        },
+        {
+            q: "Формула закона Ома для участка цепи:",
+            a: ["I = U / R", "I = U · R", "I = R / U", "I = U + R"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется сила тока?",
+            a: ["В", "Ом", "А", "Вт"],
+            correct: 2
+        },
+        {
+            q: "В каких единицах измеряется сопротивление?",
+            a: ["Ом", "А", "В", "Дж"],
+            correct: 0
+        },
+        {
+            q: "Если напряжение увеличить при постоянном сопротивлении, сила тока:",
+            a: ["увеличится", "уменьшится", "не изменится", "станет нулевой"],
+            correct: 0
+        }
+    ]
+}
+
+];
+
+
+/* =========================
+   9 КЛАСС
+========================= */
+
+const topics9 = [
+
+{
+    id: "oscillation",
+    title: "Механические колебания",
+    description: "Период, частота и амплитуда колебаний.",
+
+    theory: `
+        Колебания — движения, которые повторяются через
+        определённые промежутки времени.
+
+        Основные характеристики колебаний:
+        амплитуда, период и частота.
+    `,
+
+    formulas: [
+        "T = t / N",
+        "ν = N / t",
+        "ν = 1 / T"
+    ],
+
+    example: `
+        Если за 10 секунд произошло 20 колебаний:
+        <br><br>
+        ν = N / t = 20 / 10 = <b>2 Гц</b>.
+    `,
+
+    tests: [
+        {
+            q: "Что называют периодом колебаний?",
+            a: ["Время одного полного колебания", "Число колебаний", "Максимальное отклонение", "Скорость"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется частота?",
+            a: ["Гц", "с", "м", "Н"],
+            correct: 0
+        },
+        {
+            q: "Если за 5 секунд произошло 10 колебаний, частота:",
+            a: ["0,5 Гц", "2 Гц", "5 Гц", "50 Гц"],
+            correct: 1
+        },
+        {
+            q: "Амплитуда — это:",
+            a: ["Максимальное отклонение от положения равновесия", "Время колебания", "Число колебаний", "Масса"],
+            correct: 0
+        },
+        {
+            q: "Связь периода и частоты:",
+            a: ["ν = 1/T", "ν = T", "ν = T²", "ν = T/2"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "waves",
+    title: "Механические волны",
+    description: "Распространение волн, длина волны и скорость.",
+
+    theory: `
+        Волна — распространение колебаний в пространстве.
+
+        Волны могут распространяться в различных средах.
+        Для механической волны необходима материальная среда.
+    `,
+
+    formulas: [
+        "v = λ · ν",
+        "λ = v / ν",
+        "ν = v / λ"
+    ],
+
+    example: `
+        Скорость волны 20 м/с, частота 5 Гц.
+        <br><br>
+        λ = v / ν = 20 / 5 = <b>4 м</b>.
+    `,
+
+    tests: [
+        {
+            q: "Что называют длиной волны?",
+            a: ["Расстояние между ближайшими точками, колеблющимися в одинаковой фазе", "Время одного колебания", "Число колебаний", "Массу волны"],
+            correct: 0
+        },
+        {
+            q: "Формула скорости волны:",
+            a: ["v = λν", "v = λ/ν", "v = ν/λ", "v = λ+ν"],
+            correct: 0
+        },
+        {
+            q: "В каких единицах измеряется длина волны?",
+            a: ["м", "Гц", "с", "Н"],
+            correct: 0
+        },
+        {
+            q: "Если частота увеличивается при постоянной скорости волны, длина волны:",
+            a: ["уменьшается", "увеличивается", "не меняется", "становится нулевой"],
+            correct: 0
+        },
+        {
+            q: "Звук в воздухе является:",
+            a: ["механической волной", "электромагнитной волной", "потоком электронов", "светом"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "optics",
+    title: "Свет и оптика",
+    description: "Отражение, преломление и линзы.",
+
+    theory: `
+        Свет — электромагнитное излучение, воспринимаемое глазом.
+
+        При падении света на поверхность может происходить
+        отражение и преломление.
+    `,
+
+    formulas: [
+        "c = λ · ν",
+        "n = c / v"
+    ],
+
+    example: `
+        Скорость света в вакууме приблизительно равна
+        <b>3 · 10⁸ м/с</b>.
+    `,
+
+    tests: [
+        {
+            q: "Свет является:",
+            a: ["Электромагнитной волной", "Механической волной", "Звуком", "Потоком воды"],
+            correct: 0
+        },
+        {
+            q: "При отражении света угол падения:",
+            a: ["равен углу отражения", "всегда больше", "всегда меньше", "равен 90°"],
+            correct: 0
+        },
+        {
+            q: "Приблизительная скорость света в вакууме:",
+            a: ["3 · 10⁶ м/с", "3 · 10⁷ м/с", "3 · 10⁸ м/с", "3 · 10⁹ м/с"],
+            correct: 2
+        },
+        {
+            q: "Какой прибор используется для получения увеличенного изображения?",
+            a: ["Линза", "Амперметр", "Динамометр", "Барометр"],
+            correct: 0
+        },
+        {
+            q: "Как называется изменение направления света при переходе из одной среды в другую?",
+            a: ["Преломление", "Испарение", "Диффузия", "Конвекция"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "electromagnetism",
+    title: "Электромагнитные явления",
+    description: "Магнитное поле, электромагниты и индукция.",
+
+    theory: `
+        Электрический ток создаёт магнитное поле.
+        Магнитное поле также может возникать вокруг движущихся зарядов.
+
+        Электромагнитная индукция позволяет получать электрический ток
+        при изменении магнитного потока.
+    `,
+
+    formulas: [
+        "Φ = B · S · cos α"
+    ],
+
+    example: `
+        Изменение магнитного поля около проводника
+        может вызвать появление индукционного тока.
+    `,
+
+    tests: [
+        {
+            q: "Что создаёт магнитное поле вокруг проводника?",
+            a: ["Электрический ток", "Только температура", "Только давление", "Покой проводника"],
+            correct: 0
+        },
+        {
+            q: "Что изучает электромагнитная индукция?",
+            a: ["Возникновение тока при изменении магнитного поля", "Нагревание тела", "Давление газа", "Движение планет"],
+            correct: 0
+        },
+        {
+            q: "Как называется устройство, использующее электромагнитное действие тока?",
+            a: ["Электромагнит", "Барометр", "Термометр", "Динамометр"],
+            correct: 0
+        },
+        {
+            q: "Магнитное поле существует вокруг:",
+            a: ["Проводника с током", "Только неподвижного тела", "Только воды", "Только воздуха"],
+            correct: 0
+        },
+        {
+            q: "Единица магнитной индукции:",
+            a: ["Тесла", "Ампер", "Вольт", "Ом"],
+            correct: 0
+        }
+    ]
+},
+
+{
+    id: "atom",
+    title: "Атомная и ядерная физика",
+    description: "Строение атома, ядро, протоны и нейтроны.",
+
+    theory: `
+        Атом состоит из ядра и электронов.
+
+        В ядре находятся протоны и нейтроны.
+        Протоны имеют положительный заряд, нейтроны электрически нейтральны,
+        а электроны имеют отрицательный заряд.
+    `,
+
+    formulas: [
+        "A = Z + N",
+        "N = A − Z"
+    ],
+
+    example: `
+        Если массовое число атома A = 12,
+        а число протонов Z = 6,
+        то число нейтронов:
+        <br><br>
+        N = A − Z = 12 − 6 = <b>6</b>.
+    `,
+
+    tests: [
+        {
+            q: "Из чего состоит атомное ядро?",
+            a: ["Из протонов и нейтронов", "Только из электронов", "Только из нейтронов", "Из фотонов"],
+            correct: 0
+        },
+        {
+            q: "Какой заряд имеет протон?",
+            a: ["Положительный", "Отрицательный", "Нулевой", "Переменный"],
+            correct: 0
+        },
+        {
+            q: "Какой заряд имеет нейтрон?",
+            a: ["Нулевой", "Положительный", "Отрицательный", "Двойной"],
+            correct: 0
+        },
+        {
+            q: "Какой заряд имеет электрон?",
+            a: ["Отрицательный", "Положительный", "Нулевой", "Нет заряда"],
+            correct: 0
+        },
+        {
+            q: "Если A = 16 и Z = 8, сколько нейтронов?",
+            a: ["4", "8", "16", "24"],
+            correct: 1
+        }
+    ]
+}
+
+];
+
+
+/* =========================
+   ПЕРЕМЕННЫЕ
+========================= */
+
+let currentTopic = null;
+let currentQuestion = 0;
+let score = 0;
+
+
+/* =========================
+   ГЛАВНАЯ
+========================= */
+
+function renderTopics() {
+
+    const box8 = document.getElementById("topics8");
+    const box9 = document.getElementById("topics9");
+
+    box8.innerHTML = "";
+    box9.innerHTML = "";
+
+    topics8.forEach((topic, index) => {
+        box8.innerHTML += createTopicCard(topic, index + 1);
+    });
+
+    topics9.forEach((topic, index) => {
+        box9.innerHTML += createTopicCard(topic, index + 1);
+    });
+}
+
+
+function createTopicCard(topic, index) {
+
+    return `
+        <div class="topic-card">
+
+            <div class="topic-number">
+                ТЕМА ${index}
+            </div>
+
+            <h3>${topic.title}</h3>
+
+            <p>${topic.description}</p>
+
+            <button
+                class="open-btn"
+                onclick="openLesson('${topic.id}')">
+                Изучить тему →
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================
+   ВЫБОР КЛАССА
+========================= */
+
+function showGrade(grade, button) {
+
+    document.querySelectorAll(".grade-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    document.getElementById("topics8")
+        .classList.toggle("hidden", grade !== 8);
+
+    document.getElementById("topics9")
+        .classList.toggle("hidden", grade !== 9);
+}
+
+
+/* =========================
+   ОТКРЫТИЕ ТЕМЫ
+========================= */
+
+function findTopic(id) {
+
+    return [...topics8, ...topics9]
+        .find(topic => topic.id === id);
+}
+
+
+function openLesson(id) {
+
+    currentTopic = findTopic(id);
+
+    document.getElementById("home")
+        .classList.add("hidden");
+
+    document.getElementById("test")
+        .classList.add("hidden");
+
+    document.getElementById("lesson")
+        .classList.remove("hidden");
+
+    renderLesson();
+
+    window.scrollTo(0, 0);
+}
+
+
+function renderLesson() {
+
+    const topic = currentTopic;
+
+    document.getElementById("lessonContent").innerHTML = `
+
+        <div class="lesson-header">
+
+            <h1>${topic.title}</h1>
+
+            <p>${topic.description}</p>
+
+        </div>
+
+
+        <div class="lesson-box">
+
+            <h2>📖 Конспект</h2>
+
+            <p>${topic.theory}</p>
+
+        </div>
+
+
+        <div class="lesson-box">
+
+            <h2>🧮 Основные формулы</h2>
+
+            <div class="formulas">
+
+                ${topic.formulas
+                    .map(formula => `
+                        <div class="formula">
+                            ${formula}
+                        </div>
+                    `)
+                    .join("")}
+
+            </div>
+
+        </div>
+
+
+        <div class="lesson-box">
+
+            <h2>💡 Пример</h2>
+
+            <div class="example">
+                ${topic.example}
+            </div>
+
+        </div>
+
+
+        <div class="lesson-box">
+
+            <h2>📝 Проверка знаний</h2>
+
+            <p style="margin-bottom:18px;">
+                В тесте будет ${topic.tests.length} вопросов.
+                Проверь, насколько хорошо ты понял тему.
+            </p>
+
+            <button
+                class="test-btn"
+                onclick="startTest()">
+                Пройти тест
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================
+   ТЕСТ
+========================= */
+
+function startTest() {
+
+    currentQuestion = 0;
+    score = 0;
+
+    document.getElementById("lesson")
+        .classList.add("hidden");
+
+    document.getElementById("home")
+        .classList.add("hidden");
+
+    document.getElementById("test")
+        .classList.remove("hidden");
+
+    renderQuestion();
+
+    window.scrollTo(0, 0);
+}
+
+
+function renderQuestion() {
+
+    const questions = currentTopic.tests;
+
+    if (currentQuestion >= questions.length) {
+
+        showResult();
+
+        return;
+    }
+
+    const q = questions[currentQuestion];
+
+    const progress =
+        (currentQuestion / questions.length) * 100;
+
+    document.getElementById("testContent").innerHTML = `
+
+        <div class="question-box">
+
+            <div class="question-number">
+                Вопрос ${currentQuestion + 1}
+                из ${questions.length}
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-bar"
+                    style="width:${progress}%">
+                </div>
+            </div>
+
+            <div class="question">
+                ${q.q}
+            </div>
+
+            <div class="answers">
+
+                ${q.a.map((answer, index) => `
+
+                    <button
+                        class="answer"
+                        onclick="checkAnswer(${index}, this)">
+
+                        ${answer}
+
+                    </button>
+
+                `).join("")}
+
+            </div>
+
+            <div id="nextContainer"></div>
+
+        </div>
+    `;
+}
+
+
+function checkAnswer(index, button) {
+
+    const q = currentTopic.tests[currentQuestion];
+
+    const buttons =
+        document.querySelectorAll(".answer");
+
+    buttons.forEach(btn => {
+        btn.disabled = true;
+    });
+
+    if (index === q.correct) {
+
+        button.classList.add("correct");
+
+        score++;
+
+    } else {
+
+        button.classList.add("wrong");
+
+        buttons[q.correct]
+            .classList.add("correct");
+    }
+
+    document.getElementById("nextContainer").innerHTML = `
+
+        <button
+            class="next-btn"
+            onclick="nextQuestion()">
+
+            ${currentQuestion === currentTopic.tests.length - 1
+                ? "Посмотреть результат"
+                : "Следующий вопрос →"}
+
+        </button>
+    `;
+}
+
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    renderQuestion();
+}
+
+
+/* =========================
+   РЕЗУЛЬТАТ
+========================= */
+
+function showResult() {
+
+    const total = currentTopic.tests.length;
+
+    const percent =
+        Math.round((score / total) * 100);
+
+    let message = "";
+
+    if (percent === 100) {
+        message = "Идеальный результат! Ты отлично знаешь эту тему.";
+    }
+    else if (percent >= 80) {
+        message = "Отличный результат! Осталось совсем немного до идеала.";
+    }
+    else if (percent >= 60) {
+        message = "Неплохо! Но некоторые моменты стоит повторить.";
+    }
+    else {
+        message = "Стоит ещё раз посмотреть конспект и попробовать тест снова.";
+    }
+
+    document.getElementById("testContent").innerHTML = `
+
+        <div class="result">
+
+            <h1>Тест завершён</h1>
+
+            <div class="result-score">
+                ${score}/${total}
+            </div>
+
+            <p>
+                ${message}
+            </p>
+
+            <button
+                class="restart-btn"
+                onclick="startTest()">
+                Пройти ещё раз
+            </button>
+
+            <button
+                class="restart-btn"
+                style="margin-left:8px;"
+                onclick="openLesson('${currentTopic.id}')">
+                Вернуться к теме
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================
+   НАЗАД
+========================= */
+
+function goHome() {
+
+    document.getElementById("lesson")
+        .classList.add("hidden");
+
+    document.getElementById("test")
+        .classList.add("hidden");
+
+    document.getElementById("home")
+        .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+}
+
+
+/* =========================
+   ЗАПУСК
+========================= */
+
+renderTopics();
+
+</script>
+
+</body>
+</html>
