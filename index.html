@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PHYSLAB AI — 3D Физикалық зертхана</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#050b14;
+    color:#eaf7ff;
+    overflow-x:hidden;
+}
+
+:root{
+    --blue:#00aaff;
+    --cyan:#00eaff;
+    --dark:#071321;
+    --card:#0b1a2b;
+    --line:rgba(0,210,255,.18);
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,11,20,.88);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--line);
+}
+
+.nav{
+    max-width:1400px;
+    margin:auto;
+    min-height:70px;
+    padding:0 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:900;
+    color:var(--cyan);
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:white;
+}
+
+nav{
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:#b9d8e8;
+    text-decoration:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:var(--cyan);
+}
+
+.hero{
+    min-height:650px;
+    display:flex;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    width:700px;
+    height:700px;
+    background:radial-gradient(circle,rgba(0,190,255,.18),transparent 65%);
+    right:-200px;
+    top:-200px;
+}
+
+.hero-inner{
+    max-width:1400px;
+    width:100%;
+    margin:auto;
+    padding:70px 25px;
+    position:relative;
+}
+
+.badge{
+    display:inline-block;
+    padding:9px 15px;
+    border:1px solid rgba(0,230,255,.3);
+    border-radius:30px;
+    color:var(--cyan);
+    background:rgba(0,190,255,.06);
+    margin-bottom:20px;
+    font-size:13px;
+}
+
+.hero h1{
+    max-width:850px;
+    font-size:clamp(42px,7vw,88px);
+    line-height:.98;
+    margin-bottom:25px;
+}
+
+.gradient{
+    background:linear-gradient(90deg,#00aaff,#00eaff,#79f5ff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    max-width:720px;
+    color:#9bb8c9;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.buttons{
+    display:flex;
+    gap:12px;
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:1px solid rgba(0,220,255,.4);
+    background:rgba(0,180,255,.1);
+    color:white;
+    padding:14px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    text-decoration:none;
+    transition:.2s;
+}
+
+.btn:hover{
+    background:rgba(0,200,255,.22);
+    transform:translateY(-2px);
+}
+
+.btn.primary{
+    background:linear-gradient(135deg,#008ed0,#00cfff);
+    color:#00121c;
+    font-weight:bold;
+}
+
+section{
+    max-width:1400px;
+    margin:auto;
+    padding:80px 25px;
+}
+
+.section-title{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.section-sub{
+    color:#88a7b9;
+    margin-bottom:35px;
+    line-height:1.6;
+}
+
+/* TOPICS */
+
+.topic-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
+}
+
+.topic{
+    background:linear-gradient(145deg,#0b1b2c,#08121f);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:25px;
+    cursor:pointer;
+    transition:.25s;
+    min-height:190px;
+}
+
+.topic:hover{
+    transform:translateY(-5px);
+    border-color:rgba(0,230,255,.5);
+    box-shadow:0 15px 50px rgba(0,150,255,.1);
+}
+
+.topic-number{
+    color:var(--cyan);
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.topic h3{
+    margin-bottom:12px;
+}
+
+.topic p{
+    color:#89a6b8;
+    line-height:1.5;
+    font-size:14px;
+}
+
+/* 3D LAB */
+
+.lab3d{
+    max-width:1450px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+.lab3d-box{
+    background:#02070d;
+    border:1px solid rgba(0,220,255,.25);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 0 70px rgba(0,180,255,.07);
+}
+
+.lab3d-header{
+    padding:22px;
+    background:linear-gradient(90deg,#071727,#09111c);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.lab3d-header h2{
+    font-size:25px;
+}
+
+.live{
+    color:#00ffb3;
+    font-size:13px;
+}
+
+#scene{
+    width:100%;
+    height:600px;
+    display:block;
+    touch-action:none;
+}
+
+.lab-controls{
+    padding:25px;
+    background:#07111c;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:18px;
+}
+
+.control{
+    background:#0a1928;
+    padding:18px;
+    border-radius:14px;
+    border:1px solid var(--line);
+}
+
+.control label{
+    display:block;
+    color:#a9c8d8;
+    margin-bottom:10px;
+    font-size:14px;
+}
+
+.control strong{
+    color:var(--cyan);
+}
+
+input[type=range]{
+    width:100%;
+    accent-color:#00d9ff;
+}
+
+.lab-buttons{
+    grid-column:1/-1;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.lab-buttons button{
+    padding:12px 18px;
+    border-radius:10px;
+    border:1px solid rgba(0,220,255,.3);
+    background:#0a2032;
+    color:white;
+    cursor:pointer;
+}
+
+.lab-buttons button:hover{
+    background:#0d3048;
+}
+
+.results{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+}
+
+.result{
+    background:#06101a;
+    border-radius:12px;
+    padding:16px;
+    text-align:center;
+}
+
+.result span{
+    display:block;
+    color:#7898aa;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.result b{
+    font-size:21px;
+    color:var(--cyan);
+}
+
+/* OLD LABS */
+
+.old-labs{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.lab-card{
+    background:#091827;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:25px;
+}
+
+.lab-card h3{
+    margin-bottom:10px;
+}
+
+.lab-card p{
+    color:#91aaba;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.lab-card button{
+    margin-top:18px;
+    padding:11px 16px;
+    border:1px solid rgba(0,220,255,.3);
+    background:#0b2538;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* THEORY */
+
+.theory{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.theory-card{
+    background:#091827;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:25px;
+}
+
+.theory-card h3{
+    margin-bottom:14px;
+    color:var(--cyan);
+}
+
+.theory-card p,
+.theory-card li{
+    color:#9ab3c1;
+    line-height:1.7;
+}
+
+.theory-card ul{
+    padding-left:20px;
+}
+
+/* FORMULAS */
+
+.formula-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
+}
+
+.formula{
+    background:#081725;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+}
+
+.formula h3{
+    font-size:15px;
+    margin-bottom:14px;
+}
+
+.formula code{
+    display:block;
+    color:#00eaff;
+    font-size:20px;
+    padding:13px;
+    background:#030b13;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.formula p{
+    color:#7895a6;
+    font-size:13px;
+}
+
+/* CHALLENGE */
+
+.challenge{
+    background:linear-gradient(145deg,#081827,#06101b);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:30px;
+}
+
+.question{
+    margin-bottom:25px;
+}
+
+.question h3{
+    margin-bottom:14px;
+}
+
+.answers{
+    display:grid;
+    gap:8px;
+}
+
+.answers button{
+    text-align:left;
+    padding:13px;
+    border:1px solid rgba(0,220,255,.18);
+    background:#081725;
+    color:#c7dce7;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.answers button:hover{
+    border-color:#00dfff;
+}
+
+#score{
+    color:var(--cyan);
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+/* AI */
+
+.ai{
+    background:linear-gradient(145deg,#071827,#091321);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:25px;
+}
+
+.ai-input{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+.ai-input input{
+    flex:1;
+    background:#030a11;
+    border:1px solid rgba(0,220,255,.25);
+    color:white;
+    padding:14px;
+    border-radius:10px;
+    outline:none;
+}
+
+.ai-answer{
+    margin-top:20px;
+    padding:18px;
+    background:#030b13;
+    border-radius:12px;
+    color:#9fc0d0;
+    line-height:1.7;
+    min-height:60px;
+}
+
+footer{
+    border-top:1px solid var(--line);
+    padding:35px 20px;
+    text-align:center;
+    color:#63808f;
+}
+
+@media(max-width:700px){
+
+    nav{
+        display:none;
+    }
+
+    .hero{
+        min-height:570px;
+    }
+
+    section{
+        padding:55px 17px;
+    }
+
+    .section-title{
+        font-size:30px;
+    }
+
+    #scene{
+        height:480px;
+    }
+
+    .theory{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="nav">
+    <div class="logo">PHYS<span>LAB AI</span></div>
+
+    <nav>
+        <a href="#topics">Тақырыптар</a>
+        <a href="#3dlab">3D Lab</a>
+        <a href="#labs">Зертханалар</a>
+        <a href="#formulas">Формулалар</a>
+        <a href="#ai">AI Tutor</a>
+        <a href="#challenge">Challenge</a>
+    </nav>
+</div>
+</header>
+
+
+<section class="hero">
+<div class="hero-inner">
+
+    <div class="badge">8–9 сынып • 3D PHYSICS LABORATORY</div>
+
+    <h1>
+        Физиканы
+        <span class="gradient">тәжірибе арқылы</span>
+        үйрен.
+    </h1>
+
+    <p>
+        Теорияны оқы, формуланы түсін, 3D модельмен тәжірибе жаса
+        және нәтижені бірден көр.
+    </p>
+
+    <div class="buttons">
+        <a class="btn primary" href="#3dlab">3D зертхананы ашу</a>
+        <a class="btn" href="#topics">Тақырыптарды көру</a>
+    </div>
+
+</div>
+</section>
+
+
+<!-- TOPICS -->
+
+<section id="topics">
+
+<h2 class="section-title">Физика тақырыптары</h2>
+<p class="section-sub">
+Әр тақырыпта теория, негізгі формулалар, қысқаша конспект және зертханалық сұрақтар бар.
+</p>
+
+<div class="topic-grid">
+
+<div class="topic" onclick="selectModel('motion')">
+<div class="topic-number">01</div>
+<h3>Механикалық қозғалыс</h3>
+<p>Жол, орын ауыстыру, жылдамдық және қозғалыс траекториясы.</p>
+</div>
+
+<div class="topic" onclick="selectModel('acceleration')">
+<div class="topic-number">02</div>
+<h3>Үдеу</h3>
+<p>Теңүдемелі қозғалыс және жылдамдықтың өзгеруі.</p>
+</div>
+
+<div class="topic" onclick="selectModel('projectile')">
+<div class="topic-number">03</div>
+<h3>Горизонталь лақтыру</h3>
+<p>Дене қозғалысының параболалық траекториясы.</p>
+</div>
+
+<div class="topic" onclick="selectModel('newton')">
+<div class="topic-number">04</div>
+<h3>Ньютон заңдары</h3>
+<p>Күш, масса, үдеу және күштердің бағыттары.</p>
+</div>
+
+<div class="topic" onclick="selectModel('energy')">
+<div class="topic-number">05</div>
+<h3>Жұмыс және энергия</h3>
+<p>Кинетикалық және потенциалдық энергия.</p>
+</div>
+
+<div class="topic" onclick="selectModel('pressure')">
+<div class="topic-number">06</div>
+<h3>Қысым</h3>
+<p>Қысымның күш пен ауданға тәуелділігі.</p>
+</div>
+
+<div class="topic" onclick="selectModel('electric')">
+<div class="topic-number">07</div>
+<h3>Электр тогы</h3>
+<p>Ток күші, кернеу, кедергі және Ом заңы.</p>
+</div>
+
+<div class="topic" onclick="selectModel('wave')">
+<div class="topic-number">08</div>
+<h3>Тербелістер және толқындар</h3>
+<p>Толқын ұзындығы, жиілік және таралу жылдамдығы.</p>
+</div>
+
+<div class="topic" onclick="selectModel('pendulum')">
+<div class="topic-number">09</div>
+<h3>Математикалық маятник</h3>
+<p>Маятниктің периоды және еркін тербеліс.</p>
+</div>
+
+<div class="topic" onclick="selectModel('gravity')">
+<div class="topic-number">10</div>
+<h3>Гравитация</h3>
+<p>Планеталар, орбиталар және тартылыс күші.</p>
+</div>
+
+</div>
+</section>
+
+
+<!-- 3D -->
+
+<section id="3dlab">
+
+<h2 class="section-title">3D Virtual Physics Lab</h2>
+<p class="section-sub">
+Модельді саусағыңмен айналдыр. Екі саусақпен жақындат немесе алыстат.
+Параметрлерді өзгертіп, экспериментті іске қос.
+</p>
+
+<div class="lab3d">
+
+<div class="lab3d-box">
+
+<div class="lab3d-header">
+<div>
+<h2 id="modelTitle">Математикалық маятник</h2>
+</div>
+
+<div class="live">● LIVE 3D</div>
+</div>
+
+<div id="scene"></div>
+
+<div class="lab-controls">
+
+<div class="control">
+<label>Жылдамдық / параметр: <strong id="vValue">5</strong></label>
+<input id="vSlider" type="range" min="1" max="20" value="5">
+</div>
+
+<div class="control">
+<label>Масса: <strong id="massValue">2</strong> кг</label>
+<input id="massSlider" type="range" min="1" max="10" value="2">
+</div>
+
+<div class="control">
+<label>Ұзындық / қашықтық: <strong id="lengthValue">2</strong></label>
+<input id="lengthSlider" type="range" min="1" max="5" step=".1" value="2">
+</div>
+
+<div class="results">
+
+<div class="result">
+<span>Жылдамдық</span>
+<b id="resultV">5 м/с</b>
+</div>
+
+<div class="result">
+<span>Масса</span>
+<b id="resultM">2 кг</b>
+</div>
+
+<div class="result">
+<span>Энергия</span>
+<b id="resultE">25 Дж</b>
+</div>
+
+<div class="result">
+<span>Күш</span>
+<b id="resultF">19.6 Н</b>
+</div>
+
+</div>
+
+<div class="lab-buttons">
+<button onclick="startAnimation()">▶ Экспериментті бастау</button>
+<button onclick="stopAnimation()">Ⅱ Тоқтату</button>
+<button onclick="resetCamera()">↻ Камераны қалпына келтіру</button>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- ORIGINAL LABS -->
+
+<section id="labs">
+
+<h2 class="section-title">Негізгі зертханалық жұмыстар</h2>
+
+<p class="section-sub">
+Бұлар PHYSLAB AI жүйесіндегі негізгі 4 интерактивті лаборатория.
+</p>
+
+<div class="old-labs">
+
+<div class="lab-card">
+<h3>01 — Теңүдемелі қозғалыс</h3>
+<p>
+Бастапқы жылдамдықты, үдеуді және уақытты өзгертіп,
+соңғы жылдамдық пен жүрген жолды есепте.
+</p>
+<button onclick="selectModel('acceleration')">
+3D моделін ашу
+</button>
+</div>
+
+<div class="lab-card">
+<h3>02 — Горизонталь лақтыру</h3>
+<p>
+Дене биіктіктен горизонталь бағытта лақтырылғандағы
+ұшу уақытын және ұшу қашықтығын зертте.
+</p>
+<button onclick="selectModel('projectile')">
+3D моделін ашу
+</button>
+</div>
+
+<div class="lab-card">
+<h3>03 — Математикалық маятник</h3>
+<p>
+Маятник ұзындығын өзгертіп, тербеліс периодын бақыла.
+</p>
+<button onclick="selectModel('pendulum')">
+3D моделін ашу
+</button>
+</div>
+
+<div class="lab-card">
+<h3>04 — Беттік толқындар</h3>
+<p>
+Толқын ұзындығы мен жиілікті өзгертіп,
+толқынның таралу жылдамдығын бақыла.
+</p>
+<button onclick="selectModel('wave')">
+3D моделін ашу
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- THEORY -->
+
+<section>
+
+<h2 class="section-title">Теория және конспект</h2>
+
+<div class="theory">
+
+<div class="theory-card">
+<h3>Механикалық қозғалыс</h3>
+<p>
+Дененің басқа денелерге қатысты орнының уақыт бойынша өзгеруі
+механикалық қозғалыс деп аталады.
+</p>
+<ul>
+<li>Жол — дененің жүріп өткен траекториясының ұзындығы.</li>
+<li>Жылдамдық — уақыт бірлігіндегі орын ауыстыру.</li>
+<li>Үдеу — жылдамдықтың өзгеру жылдамдығы.</li>
+</ul>
+</div>
+
+<div class="theory-card">
+<h3>Ньютонның екінші заңы</h3>
+<p>
+Денеге әсер ететін қорытқы күш дененің массасы мен үдеуінің
+көбейтіндісіне тең.
+</p>
+<ul>
+<li>F = ma</li>
+<li>Күш артса — үдеу артады.</li>
+<li>Масса артса — бірдей күште үдеу азаяды.</li>
+</ul>
+</div>
+
+<div class="theory-card">
+<h3>Энергия</h3>
+<p>
+Энергия — дененің жұмыс атқару қабілетін сипаттайтын физикалық шама.
+</p>
+<ul>
+<li>Кинетикалық энергия қозғалысқа байланысты.</li>
+<li>Потенциалдық энергия дененің орналасуына байланысты.</li>
+</ul>
+</div>
+
+<div class="theory-card">
+<h3>Электр тогы</h3>
+<p>
+Электр тогы — зарядталған бөлшектердің бағытталған қозғалысы.
+</p>
+<ul>
+<li>I — ток күші.</li>
+<li>U — кернеу.</li>
+<li>R — электр кедергісі.</li>
+</ul>
+</div>
+
+</div>
+</section>
+
+
+<!-- FORMULAS -->
+
+<section id="formulas">
+
+<h2 class="section-title">Формулалар кітапханасы</h2>
+
+<div class="formula-grid">
+
+<div class="formula">
+<h3>Жылдамдық</h3>
+<code>v = s / t</code>
+<p>Жолдың уақытқа қатынасы.</p>
+</div>
+
+<div class="formula">
+<h3>Үдеу</h3>
+<code>a = Δv / Δt</code>
+<p>Жылдамдықтың уақыт бойынша өзгеруі.</p>
+</div>
+
+<div class="formula">
+<h3>Теңүдемелі қозғалыс</h3>
+<code>v = v₀ + at</code>
+<p>Соңғы жылдамдық.</p>
+</div>
+
+<div class="formula">
+<h3>Жол</h3>
+<code>s = v₀t + at²/2</code>
+<p>Теңүдемелі қозғалыстағы жол.</p>
+</div>
+
+<div class="formula">
+<h3>Ньютон II заңы</h3>
+<code>F = ma</code>
+<p>Күш, масса және үдеу.</p>
+</div>
+
+<div class="formula">
+<h3>Кинетикалық энергия</h3>
+<code>E = mv²/2</code>
+<p>Қозғалыс энергиясы.</p>
+</div>
+
+<div class="formula">
+<h3>Қысым</h3>
+<code>p = F/S</code>
+<p>Күштің ауданға қатынасы.</p>
+</div>
+
+<div class="formula">
+<h3>Ом заңы</h3>
+<code>I = U/R</code>
+<p>Ток күші.</p>
+</div>
+
+<div class="formula">
+<h3>Толқын жылдамдығы</h3>
+<code>v = λf</code>
+<p>Толқын ұзындығы мен жиілік.</p>
+</div>
+
+<div class="formula">
+<h3>Маятник</h3>
+<code>T = 2π√(L/g)</code>
+<p>Математикалық маятниктің периоды.</p>
+</div>
+
+<div class="formula">
+<h3>Потенциалдық энергия</h3>
+<code>Eₚ = mgh</code>
+<p>Биіктікке байланысты энергия.</p>
+</div>
+
+<div class="formula">
+<h3>Гравитациялық күш</h3>
+<code>F = Gm₁m₂/r²</code>
+<p>Екі дененің тартылыс күші.</p>
+</div>
+
+</div>
+</section>
+
+
+<!-- AI -->
+
+<section id="ai">
+
+<h2 class="section-title">AI Tutor</h2>
+
+<div class="ai">
+
+<p>
+Физика бойынша сұрақ қой. AI Tutor негізгі физикалық ұғымдарды
+қарапайым тілмен түсіндіреді.
+</p>
+
+<div class="ai-input">
+<input id="aiInput" placeholder="Мысалы: Ньютонның екінші заңы деген не?">
+<button class="btn primary" onclick="askAI()">Сұрау</button>
+</div>
+
+<div class="ai-answer" id="aiAnswer">
+Жауап осында пайда болады.
+</div>
+
+</div>
+</section>
+
+
+<!-- CHALLENGE -->
+
+<section id="challenge">
+
+<h2 class="section-title">Physics Challenge</h2>
+
+<div class="challenge">
+
+<div id="score">Ұпай: 0</div>
+
+<div class="question">
+<h3>1. Ньютонның екінші заңының формуласы қандай?</h3>
+
+<div class="answers">
+<button onclick="answer(this,true)">F = ma</button>
+<button onclick="answer(this,false)">F = m/a</button>
+<button onclick="answer(this,false)">F = a/m</button>
+</div>
+</div>
+
+<div class="question">
+<h3>2. Жылдамдықтың SI жүйесіндегі өлшем бірлігі?</h3>
+
+<div class="answers">
+<button onclick="answer(this,true)">м/с</button>
+<button onclick="answer(this,false)">Н</button>
+<button onclick="answer(this,false)">Дж</button>
+</div>
+</div>
+
+<div class="question">
+<h3>3. Қысымның формуласы?</h3>
+
+<div class="answers">
+<button onclick="answer(this,true)">p = F/S</button>
+<button onclick="answer(this,false)">p = FS</button>
+<button onclick="answer(this,false)">p = S/F</button>
+</div>
+</div>
+
+<div class="question">
+<h3>4. Ом заңы?</h3>
+
+<div class="answers">
+<button onclick="answer(this,true)">I = U/R</button>
+<button onclick="answer(this,false)">I = UR</button>
+<button onclick="answer(this,false)">I = R/U</button>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<footer>
+PHYSLAB AI • Virtual Physics Laboratory<br>
+8–9 сынып физикасы
+</footer>
+
+
+<!-- THREE.JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<script>
+
+let scene;
+let camera;
+let renderer;
+let mainObject;
+let objects=[];
+let animationRunning=true;
+let animationTime=0;
+
+let velocity=5;
+let mass=2;
+let length=2;
+
+let selectedModel="pendulum";
+
+const sceneContainer=document.getElementById("scene");
+
+
+/* SCENE */
+
+scene=new THREE.Scene();
+
+scene.background=new THREE.Color(0x02070d);
+
+camera=new THREE.PerspectiveCamera(
+    55,
+    sceneContainer.clientWidth/sceneContainer.clientHeight,
+    0.1,
+    1000
+);
+
+camera.position.set(7,5,9);
+
+renderer=new THREE.WebGLRenderer({
+    antialias:true,
+    alpha:true
+});
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+
+renderer.setSize(
+    sceneContainer.clientWidth,
+    sceneContainer.clientHeight
+);
+
+sceneContainer.appendChild(renderer.domElement);
+
+
+/* LIGHT */
+
+const ambient=new THREE.AmbientLight(0xffffff,.55);
+scene.add(ambient);
+
+const light1=new THREE.PointLight(0x00ccff,5,30);
+light1.position.set(5,7,5);
+scene.add(light1);
+
+const light2=new THREE.PointLight(0x0088ff,3,30);
+light2.position.set(-5,2,-5);
+scene.add(light2);
+
+
+/* GRID */
+
+const grid=new THREE.GridHelper(30,30,0x07506a,0x092738);
+grid.position.y=-2.2;
+scene.add(grid);
+
+
+/* SIMPLE TOUCH CAMERA */
+
+let isDragging=false;
+let lastX=0;
+let lastY=0;
+let rotX=0;
+let rotY=0;
+let zoom=9;
+
+sceneContainer.addEventListener("pointerdown",e=>{
+    isDragging=true;
+    lastX=e.clientX;
+    lastY=e.clientY;
+});
+
+sceneContainer.addEventListener("pointerup",()=>{
+    isDragging=false;
+});
+
+sceneContainer.addEventListener("pointermove",e=>{
+
+    if(!isDragging)return;
+
+    let dx=e.clientX-lastX;
+    let dy=e.clientY-lastY;
+
+    rotY+=dx*.01;
+    rotX+=dy*.01;
+
+    rotX=Math.max(-1.3,Math.min(1.3,rotX));
+
+    lastX=e.clientX;
+    lastY=e.clientY;
+
+});
+
+sceneContainer.addEventListener("wheel",e=>{
+    zoom+=e.deltaY*.01;
+    zoom=Math.max(4,Math.min(18,zoom));
+});
+
+
+/* MATERIALS */
+
+function material(color,metal=.2,rough=.35){
+
+    return new THREE.MeshStandardMaterial({
+        color,
+        metalness:metal,
+        roughness:rough
+    });
+
+}
+
+
+/* CLEAR */
+
+function clearModel(){
+
+    objects.forEach(o=>{
+        scene.remove(o);
+    });
+
+    objects=[];
+
+    mainObject=null;
+
+}
+
+
+/* BOX */
+
+function createBox(size,color=0x00aaff){
+
+    const geo=new THREE.BoxGeometry(
+        size,size,size
+    );
+
+    const mesh=new THREE.Mesh(
+        geo,
+        material(color,.6,.25)
+    );
+
+    scene.add(mesh);
+    objects.push(mesh);
+
+    return mesh;
+}
+
+
+/* SPHERE */
+
+function createSphere(radius,color=0x00eaff){
+
+    const geo=new THREE.SphereGeometry(
+        radius,32,32
+    );
+
+    const mesh=new THREE.Mesh(
+        geo,
+        material(color,.5,.2)
+    );
+
+    scene.add(mesh);
+    objects.push(mesh);
+
+    return mesh;
+}
+
+
+/* CYLINDER */
+
+function createCylinder(r,h,color=0x00aaff){
+
+    const geo=new THREE.CylinderGeometry(
+        r,r,h,32
+    );
+
+    const mesh=new THREE.Mesh(
+        geo,
+        material(color,.5,.3)
+    );
+
+    scene.add(mesh);
+    objects.push(mesh);
+
+    return mesh;
+}
+
+
+/* MODEL BUILDER */
+
+function buildModel(type){
+
+    clearModel();
+
+    selectedModel=type;
+
+    const title=document.getElementById("modelTitle");
+
+    if(type==="pendulum"){
+
+        title.textContent="Математикалық маятник";
+
+        const support=createBox(4,.18,0x17394b);
+        support.position.y=3;
+
+        const top=createCylinder(.12,4,0x8beeff);
+        top.rotation.z=Math.PI/2;
+        top.position.y=2.8;
+
+        const stringGeo=new THREE.CylinderGeometry(
+            .035,.035,3,16
+        );
+
+        const string=new THREE.Mesh(
+            stringGeo,
+            material(0xbcefff)
+        );
+
+        string.position.y=1.3;
+
+        scene.add(string);
+        objects.push(string);
+
+        const ball=createSphere(.45,0x00eaff);
+        ball.position.y=-.2;
+
+        objects.push(ball);
+
+        mainObject={
+            type:"pendulum",
+            ball,
+            string,
+            support
+        };
+
+    }
+
+
+    if(type==="motion"){
+
+        title.textContent="Механикалық қозғалыс";
+
+        const road=createBox(14,.15,.2,0x142f40);
+        road.position.y=-2;
+
+        const car=createBox(1,0x00d9ff);
+        car.position.set(-5,-1.35,0);
+
+        const wheel1=createCylinder(.35,.25,0x202b34);
+        wheel1.rotation.z=Math.PI/2;
+        wheel1.position.set(-.35,-1.9,.45);
+
+        const wheel2=wheel1.clone();
+        wheel2.position.x=.35;
+
+        scene.add(wheel2);
+        objects.push(wheel2);
+
+        mainObject={
+            type:"motion",
+            car
+        };
+
+    }
+
+
+    if(type==="acceleration"){
+
+        title.textContent="Теңүдемелі қозғалыс";
+
+        const road=createBox(14,.15,.2,0x143443);
+        road.position.y=-2;
+
+        const body=createBox(1,0x00aaff);
+        body.position.set(-5,-1.35,0);
+
+        const arrow=createCylinder(.08,2,0x00ffcc);
+        arrow.rotation.z=Math.PI/2;
+        arrow.position.y=-.5;
+
+        mainObject={
+            type:"acceleration",
+            body,
+            arrow
+        };
+
+    }
+
+
+    if(type==="projectile"){
+
+        title.textContent="Горизонталь лақтыру";
+
+        const platform=createBox(3,.4,3,0x18384a);
+        platform.position.set(-3,-.8,0);
+
+        const ball=createSphere(.4,0x00eaff);
+        ball.position.set(-3,.2,0);
+
+        const points=[];
+
+        for(let i=0;i<30;i++){
+
+            const x=i*.25;
+
+            const y=.2-x*x*.09;
+
+            const p=createSphere(.045,0x00d9ff);
+
+            p.position.set(-3+x,y,0);
+
+            points.push(p);
+
+        }
+
+        mainObject={
+            type:"projectile",
+            ball,
+            points
+        };
+
+    }
+
+
+    if(type==="newton"){
+
+        title.textContent="Ньютон заңдары";
+
+        const floor=createBox(7,.15,4,0x17394b);
+        floor.position.y=-2;
+
+        const cube=createBox(1.4,0x00aaff);
+        cube.position.y=-1.25;
+
+        const arrow=createCylinder(.12,3,0x00ffbb);
+        arrow.rotation.z=Math.PI/2;
+        arrow.position.x=2;
+
+        mainObject={
+            type:"newton",
+            cube,
+            arrow
+        };
+
+    }
+
+
+    if(type==="energy"){
+
+        title.textContent="Жұмыс және энергия";
+
+        const floor=createBox(8,.2,4,0x17394b);
+        floor.position.y=-2;
+
+        const ball=createSphere(.55,0xffd84d);
+        ball.position.y=1;
+
+        const spring=createCylinder(.15,2,0x00dfff);
+        spring.position.y=-.2;
+
+        mainObject={
+            type:"energy",
+            ball,
+            spring
+        };
+
+    }
+
+
+    if(type==="pressure"){
+
+        title.textContent="Қысым";
+
+        const floor=createBox(6,.2,5,0x17394b);
+        floor.position.y=-2;
+
+        const cube=createBox(2,0x00aaff);
+        cube.position.y=-.9;
+
+        const arrow=createCylinder(.12,2.5,0xff5577);
+        arrow.position.y=-3.3;
+
+        mainObject={
+            type:"pressure",
+            cube,
+            arrow
+        };
+
+    }
+
+
+    if(type==="electric"){
+
+        title.textContent="Электр тогы";
+
+        const battery=createBox(1.5,0x224466);
+        battery.position.set(-3,0,0);
+
+        const resistor=createBox(1,0xffaa33);
+        resistor.position.set(0,0,0);
+
+        const lamp=createSphere(.7,0xffff77);
+        lamp.position.set(3,0,0);
+
+        const wire1=createCylinder(.08,6,0x00ffcc);
+        wire1.rotation.z=Math.PI/2;
+        wire1.position.y=.8;
+
+        const wire2=wire1.clone();
+        wire2.position.y=-.8;
+
+        scene.add(wire2);
+        objects.push(wire2);
+
+        mainObject={
+            type:"electric",
+            battery,
+            resistor,
+            lamp
+        };
+
+    }
+
+
+    if(type==="wave"){
+
+        title.textContent="Беттік толқындар";
+
+        const points=[];
+
+        for(let i=0;i<100;i++){
+
+            const x=(i-50)*.15;
+
+            const p=createSphere(.07,0x00dfff);
+
+            p.position.x=x;
+
+            points.push(p);
+
+        }
+
+        mainObject={
+            type:"wave",
+            points
+        };
+
+    }
+
+
+    if(type==="gravity"){
+
+        title.textContent="Гравитация";
+
+        const sun=createSphere(1.5,0xffaa33);
+        sun.position.set(0,0,0);
+
+        const planet=createSphere(.55,0x00aaff);
+        planet.position.set(4,0,0);
+
+        const moon=createSphere(.2,0xddeeff);
+        moon.position.set(5,0,0);
+
+        mainObject={
+            type:"gravity",
+            sun,
+            planet,
+            moon
+        };
+
+    }
+
+}
+
+
+/* SELECT MODEL */
+
+function selectModel(type){
+
+    buildModel(type);
+
+    document.getElementById("3dlab")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* ANIMATION */
+
+function startAnimation(){
+    animationRunning=true;
+}
+
+function stopAnimation(){
+    animationRunning=false;
+}
+
+function resetCamera(){
+
+    rotX=0;
+    rotY=0;
+    zoom=9;
+
+}
+
+
+/* UPDATE MODEL */
+
+function updateModel(){
+
+    if(!mainObject)return;
+
+    const t=animationTime;
+
+    if(mainObject.type==="pendulum"){
+
+        const angle=
+            Math.sin(t*velocity*.8)*.65;
+
+        const L=length;
+
+        mainObject.string.scale.y=L/3;
+
+        mainObject.string.position.x=
+            Math.sin(angle)*L/2;
+
+        mainObject.string.position.y=
+            2.8-Math.cos(angle)*L/2;
+
+        mainObject.ball.position.x=
+            Math.sin(angle)*L;
+
+        mainObject.ball.position.y=
+            2.8-Math.cos(angle)*L;
+
+    }
+
+
+    if(mainObject.type==="motion"){
+
+        mainObject.car.position.x=
+            -5+((t*velocity*.5)%10);
+
+    }
+
+
+    if(mainObject.type==="acceleration"){
+
+        const x=-5+
+            Math.min(10,.25*velocity*t);
+
+        mainObject.body.position.x=x;
+
+    }
+
+
+    if(mainObject.type==="projectile"){
+
+        const x=(t*velocity)%7;
+
+        const y=.2-x*x*.09;
+
+        mainObject.ball.position.x=-3+x;
+        mainObject.ball.position.y=y;
+
+    }
+
+
+    if(mainObject.type==="newton"){
+
+        mainObject.cube.position.x=
+            Math.sin(t*velocity)*2;
+
+    }
+
+
+    if(mainObject.type==="energy"){
+
+        mainObject.ball.position.y=
+            Math.abs(Math.sin(t*velocity))*.8;
+
+    }
+
+
+    if(mainObject.type==="pressure"){
+
+        mainObject.cube.rotation.y=
+            t*.3;
+
+    }
+
+
+    if(mainObject.type==="electric"){
+
+        mainObject.lamp.scale.setScalar(
+            1+Math.sin(t*velocity)*.12
+        );
+
+    }
+
+
+    if(mainObject.type==="wave"){
+
+        mainObject.points.forEach((p,i)=>{
+
+            const x=(i-50)*.15;
+
+            p.position.y=
+                Math.sin(x*1.7-t*velocity)*.7;
+
+            p.position.z=
+                Math.cos(x*1.7-t*velocity)*.7;
+
+        });
+
+    }
+
+
+    if(mainObject.type==="gravity"){
+
+        const a=t*.4;
+
+        mainObject.planet.position.x=
+            Math.cos(a)*4;
+
+        mainObject.planet.position.z=
+            Math.sin(a)*4;
+
+        mainObject.moon.position.x=
+            Math.cos(a)*4+
+            Math.cos(a*4)*1;
+
+        mainObject.moon.position.z=
+            Math.sin(a)*4+
+            Math.sin(a*4)*1;
+
+    }
+
+}
+
+
+/* LOOP */
+
+function animate(){
+
+    requestAnimationFrame(animate);
+
+    if(animationRunning){
+
+        animationTime+=.016;
+
+        updateModel();
+
+    }
+
+    camera.position.x=
+        Math.sin(rotY)*zoom;
+
+    camera.position.z=
+        Math.cos(rotY)*zoom;
+
+    camera.position.y=
+        5+rotX*4;
+
+    camera.lookAt(0,0,0);
+
+    renderer.render(scene,camera);
+
+}
+
+animate();
+
+
+/* RESIZE */
+
+window.addEventListener("resize",()=>{
+
+    camera.aspect=
+        sceneContainer.clientWidth/
+        sceneContainer.clientHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+        sceneContainer.clientWidth,
+        sceneContainer.clientHeight
+    );
+
+});
+
+
+/* CONTROLS */
+
+document.getElementById("vSlider").oninput=e=>{
+
+    velocity=Number(e.target.value);
+
+    document.getElementById("vValue")
+        .textContent=velocity;
+
+    calculate();
+
+};
+
+document.getElementById("massSlider").oninput=e=>{
+
+    mass=Number(e.target.value);
+
+    document.getElementById("massValue")
+        .textContent=mass;
+
+    calculate();
+
+};
+
+document.getElementById("lengthSlider").oninput=e=>{
+
+    length=Number(e.target.value);
+
+    document.getElementById("lengthValue")
+        .textContent=length;
+
+    calculate();
+
+};
+
+
+function calculate(){
+
+    const E=.5*mass*velocity*velocity;
+    const F=mass*9.8;
+
+    document.getElementById("resultV")
+        .textContent=velocity+" м/с";
+
+    document.getElementById("resultM")
+        .textContent=mass+" кг";
+
+    document.getElementById("resultE")
+        .textContent=E.toFixed(1)+" Дж";
+
+    document.getElementById("resultF")
+        .textContent=F.toFixed(1)+" Н";
+
+}
+
+
+/* AI */
+
+function askAI(){
+
+    const q=
+        document.getElementById("aiInput")
+        .value.toLowerCase();
+
+    let answer=
+        "Бұл сұрақ бойынша нақты мысал келтіріп түсіндіруге болады.";
+
+    if(q.includes("ньютон")){
+        answer=
+        "Ньютонның екінші заңы: F = ma. Мұнда F — қорытқы күш, m — масса, a — үдеу. Мысалы, бірдей күш әсер еткенде массасы аз дене көбірек үдеу алады.";
+    }
+
+    else if(q.includes("жылдамдық")){
+        answer=
+        "Жылдамдық v = s/t формуласымен есептеледі. s — жүрген жол, t — уақыт.";
+    }
+
+    else if(q.includes("қысым")){
+        answer=
+        "Қысым p = F/S. Бірдей күште аудан азайса, қысым көбейеді.";
+    }
+
+    else if(q.includes("ом")){
+        answer=
+        "Ом заңы: I = U/R. Кернеу артса ток күші артады, ал кедергі артса ток күші азаяды.";
+    }
+
+    else if(q.includes("маятник")){
+        answer=
+        "Математикалық маятниктің периоды T = 2π√(L/g). Маятниктің ұзындығы артқан сайын оның периоды да артады.";
+    }
+
+    else if(q.includes("толқын")){
+        answer=
+        "Толқын жылдамдығы v = λf. λ — толқын ұзындығы, f — жиілік.";
+    }
+
+    document.getElementById("aiAnswer")
+        .textContent=answer;
+
+}
+
+
+/* CHALLENGE */
+
+let score=0;
+
+function answer(button,correct){
+
+    if(button.dataset.done)return;
+
+    button.dataset.done="1";
+
+    if(correct){
+
+        score++;
+
+        button.style.borderColor="#00ffbb";
+
+    }else{
+
+        button.style.borderColor="#ff5577";
+
+    }
+
+    document.getElementById("score")
+        .textContent="Ұпай: "+score;
+
+}
+
+
+/* START */
+
+calculate();
+
+buildModel("pendulum");
+
+</script>
+
+</body>
+</html>
