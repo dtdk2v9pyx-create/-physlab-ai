@@ -1,0 +1,3036 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHYSLAB AI — Физика зертханасы</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050912;
+    color:#eef7ff;
+    line-height:1.6;
+}
+
+:root{
+    --bg:#050912;
+    --card:#0b1422;
+    --card2:#101c2d;
+    --line:#1b3048;
+    --cyan:#00e5ff;
+    --blue:#2979ff;
+    --green:#39ff88;
+    --yellow:#ffd54f;
+    --red:#ff5370;
+    --text:#eef7ff;
+    --muted:#8fa4bb;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,9,18,.88);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+}
+
+.nav{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:25px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#001018;
+    box-shadow:0 0 25px rgba(0,229,255,.3);
+}
+
+.logo span{
+    color:var(--cyan);
+}
+
+nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    padding:9px 13px;
+    color:var(--muted);
+    border-radius:10px;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:var(--cyan);
+    background:#0d1b2c;
+}
+
+/* HERO */
+
+.hero{
+    min-height:650px;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    align-items:center;
+    gap:50px;
+    padding:80px 0;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border:1px solid #16425a;
+    border-radius:30px;
+    color:var(--cyan);
+    background:#071522;
+    font-size:14px;
+    margin-bottom:22px;
+}
+
+.badge-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
+}
+
+h1{
+    font-size:clamp(42px,6vw,76px);
+    line-height:1.02;
+    letter-spacing:-3px;
+    margin-bottom:22px;
+}
+
+.gradient{
+    background:linear-gradient(90deg,var(--cyan),#6e8cff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:18px;
+    max-width:650px;
+    margin-bottom:30px;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    border:0;
+    padding:14px 20px;
+    border-radius:12px;
+    font-weight:800;
+    transition:.2s;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#001018;
+    box-shadow:0 10px 30px rgba(0,229,255,.15);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+    background:#0d1929;
+    color:var(--text);
+    border:1px solid var(--line);
+}
+
+.btn-secondary:hover{
+    border-color:var(--cyan);
+}
+
+.hero-visual{
+    height:430px;
+    position:relative;
+    border:1px solid var(--line);
+    border-radius:30px;
+    background:
+        radial-gradient(circle at 50% 40%,rgba(0,229,255,.09),transparent 45%),
+        #07101c;
+    overflow:hidden;
+}
+
+#heroCanvas{
+    width:100%;
+    height:100%;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+}
+
+.stat{
+    padding:28px 20px;
+    text-align:center;
+    border-right:1px solid var(--line);
+}
+
+.stat:last-child{
+    border-right:0;
+}
+
+.stat strong{
+    display:block;
+    font-size:28px;
+    color:var(--cyan);
+}
+
+.stat span{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* SECTION */
+
+section{
+    padding:90px 0;
+}
+
+.section-head{
+    margin-bottom:35px;
+}
+
+.eyebrow{
+    color:var(--cyan);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+h2{
+    font-size:clamp(30px,4vw,48px);
+    line-height:1.1;
+    margin-bottom:12px;
+}
+
+.section-head p{
+    color:var(--muted);
+    max-width:720px;
+}
+
+/* SEARCH */
+
+.search-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:30px;
+}
+
+.search-box input{
+    flex:1;
+    min-width:0;
+    padding:15px 18px;
+    background:#091322;
+    border:1px solid var(--line);
+    border-radius:12px;
+    color:white;
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:var(--cyan);
+}
+
+/* TOPICS */
+
+.topic-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.topic-card{
+    background:linear-gradient(145deg,#0b1524,#09111e);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+    transition:.25s;
+}
+
+.topic-card:hover{
+    transform:translateY(-5px);
+    border-color:#25627a;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.topic-number{
+    color:var(--cyan);
+    font-size:13px;
+    font-weight:bold;
+}
+
+.topic-card h3{
+    font-size:22px;
+    margin:8px 0;
+}
+
+.topic-card p{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:18px;
+}
+
+.topic-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-bottom:18px;
+}
+
+.tag{
+    padding:5px 8px;
+    background:#0f2133;
+    border-radius:7px;
+    color:#a9c5da;
+    font-size:11px;
+}
+
+/* TOPIC DETAIL */
+
+.topic-detail{
+    margin-top:35px;
+    background:#08111e;
+    border:1px solid var(--line);
+    border-radius:22px;
+    overflow:hidden;
+}
+
+.topic-title{
+    padding:25px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(90deg,#0b1929,#08111e);
+}
+
+.topic-title h3{
+    font-size:30px;
+}
+
+.topic-title p{
+    color:var(--muted);
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+.detail-box{
+    padding:25px;
+    border-bottom:1px solid var(--line);
+}
+
+.detail-box:nth-child(odd){
+    border-right:1px solid var(--line);
+}
+
+.detail-box h4{
+    color:var(--cyan);
+    margin-bottom:12px;
+    font-size:18px;
+}
+
+.detail-box p,
+.detail-box li{
+    color:#b8c8d8;
+    font-size:14px;
+}
+
+.detail-box ul{
+    padding-left:20px;
+}
+
+.formula{
+    padding:18px;
+    background:#050b13;
+    border:1px solid #18364a;
+    border-radius:12px;
+    color:var(--yellow);
+    font-size:22px;
+    font-family:monospace;
+    margin:10px 0;
+    text-align:center;
+}
+
+/* LABS */
+
+.lab-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.lab{
+    background:linear-gradient(145deg,#0a1422,#07101b);
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.lab-header{
+    padding:22px;
+    border-bottom:1px solid var(--line);
+}
+
+.lab-header h3{
+    font-size:23px;
+}
+
+.lab-header p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.lab-body{
+    padding:22px;
+}
+
+.controls{
+    display:grid;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.control label{
+    display:flex;
+    justify-content:space-between;
+    color:#bcd0e1;
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+input[type=range]{
+    width:100%;
+    accent-color:var(--cyan);
+}
+
+.number-input{
+    width:100%;
+    padding:11px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:#07101b;
+    color:white;
+}
+
+.result{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:18px 0;
+}
+
+.result-item{
+    padding:15px;
+    background:#07101b;
+    border:1px solid var(--line);
+    border-radius:11px;
+}
+
+.result-item small{
+    color:var(--muted);
+    display:block;
+}
+
+.result-item strong{
+    color:var(--green);
+    font-size:21px;
+}
+
+canvas.lab-canvas{
+    width:100%;
+    height:240px;
+    background:#03070d;
+    border-radius:12px;
+    border:1px solid var(--line);
+}
+
+.lab-question{
+    margin-top:18px;
+    padding:15px;
+    border-radius:11px;
+    background:#0c1827;
+    border-left:3px solid var(--yellow);
+}
+
+.lab-question strong{
+    color:var(--yellow);
+}
+
+.lab-question p{
+    color:#b8c8d8;
+    font-size:14px;
+    margin-top:6px;
+}
+
+/* EXTRA LAB */
+
+.extra-labs{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:25px;
+}
+
+.mini-lab{
+    padding:20px;
+    background:#0a1421;
+    border:1px solid var(--line);
+    border-radius:17px;
+}
+
+.mini-lab h3{
+    margin-bottom:7px;
+}
+
+.mini-lab p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.mini-lab .mini-result{
+    margin-top:15px;
+    color:var(--green);
+    font-family:monospace;
+}
+
+/* DATA */
+
+.data-layout{
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:20px;
+}
+
+.panel{
+    background:#091321;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+}
+
+.panel h3{
+    margin-bottom:15px;
+}
+
+.measure-row{
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+}
+
+th,td{
+    text-align:left;
+    padding:10px;
+    border-bottom:1px solid var(--line);
+}
+
+th{
+    color:var(--cyan);
+}
+
+td{
+    color:#b8c8d8;
+}
+
+#chart{
+    width:100%;
+    height:300px;
+}
+
+/* FORMULA LIBRARY */
+
+.formula-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.formula-card{
+    padding:20px;
+    background:#091321;
+    border:1px solid var(--line);
+    border-radius:16px;
+}
+
+.formula-card h3{
+    margin-bottom:10px;
+}
+
+.formula-card .formula{
+    font-size:20px;
+}
+
+.formula-card p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* AI */
+
+.ai-layout{
+    display:grid;
+    grid-template-columns:.8fr 1.2fr;
+    gap:20px;
+}
+
+.ai-info{
+    padding:25px;
+    background:linear-gradient(145deg,#0b1929,#07101b);
+    border:1px solid var(--line);
+    border-radius:20px;
+}
+
+.ai-info ul{
+    padding-left:20px;
+    margin-top:15px;
+}
+
+.ai-info li{
+    margin-bottom:9px;
+    color:#b7c8d8;
+}
+
+.chat{
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+    background:#07101b;
+}
+
+.chat-messages{
+    height:390px;
+    overflow-y:auto;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.message{
+    max-width:85%;
+    padding:12px 15px;
+    border-radius:13px;
+    font-size:14px;
+}
+
+.bot{
+    background:#0d1b2b;
+    align-self:flex-start;
+    color:#c8d8e8;
+}
+
+.user{
+    background:#073b4c;
+    align-self:flex-end;
+    color:white;
+}
+
+.chat-input{
+    display:flex;
+    padding:12px;
+    border-top:1px solid var(--line);
+    gap:8px;
+}
+
+.chat-input input{
+    flex:1;
+    background:#050b13;
+    border:1px solid var(--line);
+    color:white;
+    padding:12px;
+    border-radius:10px;
+}
+
+/* CHALLENGE */
+
+.challenge{
+    background:
+        radial-gradient(circle at 10% 20%,rgba(0,229,255,.08),transparent 30%),
+        #07101b;
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:30px;
+}
+
+.question-card{
+    padding:20px;
+    background:#091625;
+    border:1px solid var(--line);
+    border-radius:15px;
+    margin-bottom:14px;
+}
+
+.question-card h3{
+    margin-bottom:12px;
+}
+
+.answers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.answer{
+    border:1px solid var(--line);
+    background:#0b1726;
+    color:#c6d7e8;
+    padding:11px;
+    border-radius:9px;
+    text-align:left;
+}
+
+.answer:hover{
+    border-color:var(--cyan);
+}
+
+.answer.correct{
+    border-color:var(--green);
+    background:#0a281b;
+}
+
+.answer.wrong{
+    border-color:var(--red);
+    background:#2a0d16;
+}
+
+.score{
+    margin-top:20px;
+    font-size:22px;
+    color:var(--yellow);
+}
+
+/* PROJECT */
+
+.project{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.project-card{
+    padding:25px;
+    background:#091321;
+    border:1px solid var(--line);
+    border-radius:18px;
+}
+
+.project-card p{
+    color:var(--muted);
+}
+
+.project-card ul{
+    margin-top:15px;
+    padding-left:20px;
+    color:#b9cad9;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--line);
+    padding:35px 0;
+    color:var(--muted);
+    text-align:center;
+}
+
+.footer-logo{
+    font-size:22px;
+    font-weight:bold;
+    color:white;
+    margin-bottom:8px;
+}
+
+.footer-logo span{
+    color:var(--cyan);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    .hero,
+    .data-layout,
+    .ai-layout,
+    .project{
+        grid-template-columns:1fr;
+    }
+
+    .topic-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .lab-grid{
+        grid-template-columns:1fr;
+    }
+
+    .extra-labs,
+    .formula-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat:nth-child(2){
+        border-right:0;
+    }
+
+    .stat:nth-child(-n+2){
+        border-bottom:1px solid var(--line);
+    }
+}
+
+@media(max-width:600px){
+    nav{
+        display:none;
+    }
+
+    .hero{
+        padding:55px 0;
+    }
+
+    h1{
+        letter-spacing:-2px;
+    }
+
+    .hero-visual{
+        height:320px;
+    }
+
+    .topic-grid,
+    .extra-labs,
+    .formula-grid,
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .detail-box:nth-child(odd){
+        border-right:0;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
+    .measure-row{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .measure-row button{
+        grid-column:1/-1;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .stat{
+        border-right:0;
+        border-bottom:1px solid var(--line);
+    }
+
+    .stat:last-child{
+        border-bottom:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container nav">
+
+<a href="#" class="logo">
+    <div class="logo-icon">Φ</div>
+    PHYS<span>LAB</span> AI
+</a>
+
+<nav>
+    <a href="#topics">Тақырыптар</a>
+    <a href="#labs">Зертханалар</a>
+    <a href="#formulas">Формулалар</a>
+    <a href="#data">Талдау</a>
+    <a href="#ai">AI Tutor</a>
+    <a href="#challenge">Challenge</a>
+</nav>
+
+</div>
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero container">
+
+<div>
+
+<div class="badge">
+    <span class="badge-dot"></span>
+    8–9 сынып физикасы
+</div>
+
+<h1>
+    Физиканы<br>
+    <span class="gradient">тәжірибе арқылы</span> үйрен.
+</h1>
+
+<p>
+    PHYSLAB AI — физиканы теориямен ғана емес,
+    виртуалды тәжірибелер, формулалар, конспект,
+    зертханалық жұмыстар және есептер арқылы үйренуге
+    арналған интерактивті оқу платформасы.
+</p>
+
+<div class="buttons">
+    <a href="#topics" class="btn btn-primary">Оқуды бастау</a>
+    <a href="#labs" class="btn btn-secondary">Зертхананы ашу</a>
+</div>
+
+</div>
+
+<div class="hero-visual">
+    <canvas id="heroCanvas"></canvas>
+</div>
+
+</section>
+
+<!-- STATS -->
+
+<div class="container stats">
+
+<div class="stat">
+    <strong>08+</strong>
+    <span>Физика тақырыбы</span>
+</div>
+
+<div class="stat">
+    <strong>04</strong>
+    <span>Негізгі виртуалды зертхана</span>
+</div>
+
+<div class="stat">
+    <strong>∞</strong>
+    <span>Эксперимент жасау мүмкіндігі</span>
+</div>
+
+<div class="stat">
+    <strong>AI</strong>
+    <span>Жеке оқу көмекшісі</span>
+</div>
+
+</div>
+
+
+<!-- TOPICS -->
+
+<section id="topics">
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">01 / Оқу бөлімі</div>
+<h2>Физика тақырыптары</h2>
+<p>
+Әр тақырыпта теория, қысқа конспект, негізгі формулалар,
+түсіндірме және зертханалық сұрақтар орналасқан.
+</p>
+</div>
+
+<div class="search-box">
+<input id="topicSearch" placeholder="Тақырыпты іздеу... мысалы: күш, энергия, толқын">
+</div>
+
+<div class="topic-grid" id="topicGrid">
+
+<div class="topic-card" data-search="механикалық қозғалыс жылдамдық уақыт">
+<div class="topic-number">01</div>
+<h3>Механикалық қозғалыс</h3>
+<p>Дене қозғалысы, жол, орын ауыстыру және жылдамдық.</p>
+<div class="topic-tags">
+<span class="tag">Қозғалыс</span>
+<span class="tag">Жылдамдық</span>
+<span class="tag">Уақыт</span>
+</div>
+<a class="btn btn-secondary" href="#topic-motion">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="үдеу теңүдемелі қозғалыс">
+<div class="topic-number">02</div>
+<h3>Үдеу</h3>
+<p>Жылдамдықтың уақыт бойынша өзгеруін зерттеу.</p>
+<div class="topic-tags">
+<span class="tag">Үдеу</span>
+<span class="tag">v₀</span>
+<span class="tag">a</span>
+</div>
+<a class="btn btn-secondary" href="#topic-acceleration">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="күш ньютон динамика">
+<div class="topic-number">03</div>
+<h3>Күш және Ньютон заңдары</h3>
+<p>Күштің дене қозғалысына әсерін түсіндіру.</p>
+<div class="topic-tags">
+<span class="tag">F=ma</span>
+<span class="tag">Ньютон</span>
+</div>
+<a class="btn btn-secondary" href="#topic-force">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="жұмыс энергия қуат механикалық">
+<div class="topic-number">04</div>
+<h3>Жұмыс және энергия</h3>
+<p>Механикалық жұмыс, кинетикалық және потенциалдық энергия.</p>
+<div class="topic-tags">
+<span class="tag">A</span>
+<span class="tag">E</span>
+<span class="tag">P</span>
+</div>
+<a class="btn btn-secondary" href="#topic-energy">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="қысым сұйық газ паскаль">
+<div class="topic-number">05</div>
+<h3>Қысым</h3>
+<p>Қатты денелердің, сұйықтар мен газдардың қысымы.</p>
+<div class="topic-tags">
+<span class="tag">p</span>
+<span class="tag">Паскаль</span>
+</div>
+<a class="btn btn-secondary" href="#topic-pressure">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="электр тогы ом заңы кернеу кедергі">
+<div class="topic-number">06</div>
+<h3>Электр тогы</h3>
+<p>Ток күші, кернеу, кедергі және Ом заңы.</p>
+<div class="topic-tags">
+<span class="tag">I</span>
+<span class="tag">U</span>
+<span class="tag">R</span>
+</div>
+<a class="btn btn-secondary" href="#topic-electric">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="толқын тербеліс жиілік ұзындық">
+<div class="topic-number">07</div>
+<h3>Тербелістер және толқындар</h3>
+<p>Тербеліс периоды, жиілік, толқын ұзындығы және жылдамдық.</p>
+<div class="topic-tags">
+<span class="tag">λ</span>
+<span class="tag">f</span>
+<span class="tag">T</span>
+</div>
+<a class="btn btn-secondary" href="#topic-wave">Толық оқу</a>
+</div>
+
+<div class="topic-card" data-search="гравитация еркін түсу маятник">
+<div class="topic-number">08</div>
+<h3>Гравитация және маятник</h3>
+<p>Еркін түсу, ауырлық күші және математикалық маятник.</p>
+<div class="topic-tags">
+<span class="tag">g</span>
+<span class="tag">T</span>
+<span class="tag">mg</span>
+</div>
+<a class="btn btn-secondary" href="#topic-gravity">Толық оқу</a>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- TOPIC DETAILS -->
+
+<section id="topic-motion">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Механикалық қозғалыс</h3>
+<p>Дененің уақыт бойынша кеңістіктегі орнын өзгертуі.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Механикалық қозғалыс — дененің басқа денелерге қатысты
+өз орнын уақыт бойынша өзгертуі.
+Қозғалысты сипаттау үшін жол, орын ауыстыру, уақыт және
+жылдамдық қолданылады.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Негізгі формулалар</h4>
+<div class="formula">v = s / t</div>
+<div class="formula">s = vt</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>s — жүрілген жол, метр.</li>
+<li>t — уақыт, секунд.</li>
+<li>v — жылдамдық, м/с.</li>
+<li>Жылдамдық артса, бірдей уақытта жүрілген жол көбейеді.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Жылдамдық дегеніміз не?</li>
+<li>Жол қандай өлшем бірлікпен өлшенеді?</li>
+<li>Уақыт екі есе артса, жол қалай өзгереді?</li>
+<li>Жылдамдықты қалай есептейміз?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-acceleration">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Үдеу және теңүдемелі қозғалыс</h3>
+<p>Жылдамдықтың уақыт бойынша өзгеруі.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Үдеу — дененің жылдамдығының уақыт бірлігіндегі өзгерісін
+сипаттайтын физикалық шама.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">a = (v − v₀) / t</div>
+<div class="formula">v = v₀ + at</div>
+<div class="formula">s = v₀t + at²/2</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>a — үдеу, м/с².</li>
+<li>v₀ — бастапқы жылдамдық.</li>
+<li>v — соңғы жылдамдық.</li>
+<li>a > 0 болса, жылдамдық артады.</li>
+<li>a < 0 болса, дене баяулайды.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Үдеу нені көрсетеді?</li>
+<li>Үдеудің өлшем бірлігі қандай?</li>
+<li>Үдеу екі есе артса, жылдамдық қалай өзгереді?</li>
+<li>Теңүдемелі қозғалыс дегеніміз не?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-force">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Күш және Ньютон заңдары</h3>
+<p>Денелердің өзара әрекеттесуін сипаттайтын негізгі бөлім.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Күш — денелердің өзара әрекеттесуін сипаттайтын векторлық шама.
+Күш дененің қозғалыс жылдамдығын немесе бағытын өзгерте алады.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">F = ma</div>
+<div class="formula">F ауырлық = mg</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>F — күш, Н.</li>
+<li>m — масса, кг.</li>
+<li>a — үдеу, м/с².</li>
+<li>1 Н = 1 кг·м/с².</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Күштің өлшем бірлігі қандай?</li>
+<li>Ньютонның екінші заңы қалай жазылады?</li>
+<li>Масса артса, бірдей күш кезінде үдеу қалай өзгереді?</li>
+<li>Ауырлық күші дегеніміз не?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-energy">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Жұмыс және энергия</h3>
+<p>Механикалық энергияның түрлері және жұмыс.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Механикалық жұмыс күш әсерінен дененің орын ауыстыруымен
+байланысты. Энергия — дененің жұмыс атқара алу қабілетін
+сипаттайтын физикалық шама.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">A = Fs</div>
+<div class="formula">Eₖ = mv²/2</div>
+<div class="formula">Eₚ = mgh</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>A — жұмыс, Дж.</li>
+<li>Eₖ — кинетикалық энергия.</li>
+<li>Eₚ — потенциалдық энергия.</li>
+<li>Жұмыс күш пен орын ауыстыруға байланысты.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Жұмыстың өлшем бірлігі қандай?</li>
+<li>Кинетикалық энергия неге тәуелді?</li>
+<li>Потенциалдық энергия қалай өзгереді?</li>
+<li>Энергияның сақталу заңын түсіндір.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-pressure">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Қысым</h3>
+<p>Қысымның қатты денелерде, сұйықтарда және газдарда байқалуы.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Қысым — бетке перпендикуляр бағытталған күштің сол беттің
+ауданына қатынасы.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">p = F / S</div>
+<div class="formula">p = ρgh</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>p — қысым, Па.</li>
+<li>F — күш, Н.</li>
+<li>S — аудан, м².</li>
+<li>Аудан азайса, қысым артады.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Қысымның өлшем бірлігі қандай?</li>
+<li>Неліктен пышақтың жүзі өткір болады?</li>
+<li>Сұйық қысымы неге тәуелді?</li>
+<li>Тереңдік артқанда қысым қалай өзгереді?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-electric">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Электр тогы</h3>
+<p>Ток күші, кернеу және электрлік кедергі.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Электр тогы — электр зарядтарының реттелген қозғалысы.
+Тізбектегі токтың шамасы кернеу мен кедергіге байланысты.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">I = q / t</div>
+<div class="formula">U = IR</div>
+<div class="formula">R = U / I</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>I — ток күші, А.</li>
+<li>U — кернеу, В.</li>
+<li>R — кедергі, Ом.</li>
+<li>Ом заңы: I = U/R.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Электр тогы дегеніміз не?</li>
+<li>Кернеу қалай өлшенеді?</li>
+<li>Ом заңы қалай жазылады?</li>
+<li>Кедергі артса, ток күші қалай өзгереді?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-wave">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Тербелістер және толқындар</h3>
+<p>Тербелмелі қозғалыс пен толқындардың негізгі қасиеттері.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Тербеліс — дененің белгілі бір уақыт аралығында қайталанып
+отыратын қозғалысы. Толқын — тербелістің кеңістікте таралуы.
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">f = 1 / T</div>
+<div class="formula">v = λf</div>
+<div class="formula">T = 1 / f</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>T — период, секунд.</li>
+<li>f — жиілік, Гц.</li>
+<li>λ — толқын ұзындығы, метр.</li>
+<li>v — толқын жылдамдығы, м/с.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Период дегеніміз не?</li>
+<li>Жиілік пен период арасында қандай байланыс бар?</li>
+<li>Толқын ұзындығы дегеніміз не?</li>
+<li>Толқын жылдамдығын қалай есептейміз?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<section id="topic-gravity">
+
+<div class="container">
+
+<div class="topic-detail">
+
+<div class="topic-title">
+<h3>Гравитация және математикалық маятник</h3>
+<p>Ауырлық күші, еркін түсу және маятник қозғалысы.</p>
+</div>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+<h4>Теория</h4>
+<p>
+Жер барлық денелерді өзіне тартады. Бұл құбылыс гравитациялық
+өзара әрекеттесу деп аталады. Жер бетіне жақын жерде еркін
+түсу үдеуі шамамен 9,8 м/с².
+</p>
+</div>
+
+<div class="detail-box">
+<h4>Формулалар</h4>
+<div class="formula">F = mg</div>
+<div class="formula">T = 2π√(L/g)</div>
+<div class="formula">g ≈ 9.8 м/с²</div>
+</div>
+
+<div class="detail-box">
+<h4>Қысқа конспект</h4>
+<ul>
+<li>g — еркін түсу үдеуі.</li>
+<li>L — маятник ұзындығы.</li>
+<li>T — тербеліс периоды.</li>
+<li>Маятник ұзындығы артса, период артады.</li>
+</ul>
+</div>
+
+<div class="detail-box">
+<h4>Зертханалық сұрақтар</h4>
+<ul>
+<li>Еркін түсу үдеуі неге тең?</li>
+<li>Маятниктің периоды неге тәуелді?</li>
+<li>Маятник ұзындығын арттырғанда не болады?</li>
+<li>Гравитациялық күш дегеніміз не?</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+
+<!-- LABORATORIES -->
+
+<section id="labs">
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">02 / Virtual Lab</div>
+<h2>Интерактивті зертханалар</h2>
+<p>
+Бұл жерде сен параметрлерді өзгертіп, нәтижені бірден көре аласың.
+Бастапқы 4 зертханалық жұмыс сақталған.
+</p>
+</div>
+
+<div class="lab-grid">
+
+<!-- LAB 1 -->
+
+<div class="lab">
+
+<div class="lab-header">
+<h3>01. Теңүдемелі қозғалыс</h3>
+<p>Бастапқы жылдамдық пен үдеудің қозғалысқа әсерін зерттеу.</p>
+</div>
+
+<div class="lab-body">
+
+<div class="controls">
+
+<div class="control">
+<label>
+<span>Бастапқы жылдамдық v₀</span>
+<strong id="v0Value">5 м/с</strong>
+</label>
+<input id="v0" type="range" min="0" max="30" value="5">
+</div>
+
+<div class="control">
+<label>
+<span>Үдеу a</span>
+<strong id="aValue">2 м/с²</strong>
+</label>
+<input id="acceleration" type="range" min="-5" max="10" step=".5" value="2">
+</div>
+
+<div class="control">
+<label>
+<span>Уақыт t</span>
+<strong id="timeValue">5 с</strong>
+</label>
+<input id="time" type="range" min="1" max="15" value="5">
+</div>
+
+</div>
+
+<div class="result">
+<div class="result-item">
+<small>Соңғы жылдамдық</small>
+<strong id="finalVelocity">15 м/с</strong>
+</div>
+
+<div class="result-item">
+<small>Жол</small>
+<strong id="distance">50 м</strong>
+</div>
+</div>
+
+<canvas id="motionCanvas" class="lab-canvas"></canvas>
+
+<div class="lab-question">
+<strong>Зертханалық сұрақ:</strong>
+<p>
+Үдеуді көбейтсең, дененің соңғы жылдамдығы мен жүрген жолы қалай өзгереді?
+</p>
+</div>
+
+</div>
+</div>
+
+
+<!-- LAB 2 -->
+
+<div class="lab">
+
+<div class="lab-header">
+<h3>02. Горизонталь лақтыру</h3>
+<p>Дененің горизонталь бағытта лақтырылуын модельдеу.</p>
+</div>
+
+<div class="lab-body">
+
+<div class="controls">
+
+<div class="control">
+<label>
+<span>Бастапқы жылдамдық</span>
+<strong id="projectileVValue">10 м/с</strong>
+</label>
+<input id="projectileV" type="range" min="1" max="30" value="10">
+</div>
+
+<div class="control">
+<label>
+<span>Биіктік</span>
+<strong id="heightValue">20 м</strong>
+</label>
+<input id="height" type="range" min="5" max="50" value="20">
+</div>
+
+<div class="control">
+<label>
+<span>g</span>
+<strong id="gValue">9.8 м/с²</strong>
+</label>
+<input id="gravity" type="range" min="5" max="12" step=".1" value="9.8">
+</div>
+
+</div>
+
+<div class="result">
+<div class="result-item">
+<small>Ұшу уақыты</small>
+<strong id="flightTime">2.02 с</strong>
+</div>
+
+<div class="result-item">
+<small>Ұшу қашықтығы</small>
+<strong id="range">20.20 м</strong>
+</div>
+</div>
+
+<canvas id="projectileCanvas" class="lab-canvas"></canvas>
+
+<div class="lab-question">
+<strong>Зертханалық сұрақ:</strong>
+<p>
+Биіктік екі есе артса, дененің ұшу уақыты қалай өзгереді?
+</p>
+</div>
+
+</div>
+</div>
+
+
+<!-- LAB 3 -->
+
+<div class="lab">
+
+<div class="lab-header">
+<h3>03. Математикалық маятник</h3>
+<p>Маятник ұзындығының периодқа әсерін зерттеу.</p>
+</div>
+
+<div class="lab-body">
+
+<div class="controls">
+
+<div class="control">
+<label>
+<span>Маятник ұзындығы L</span>
+<strong id="lengthValue">1.00 м</strong>
+</label>
+<input id="length" type="range" min=".2" max="2" step=".05" value="1">
+</div>
+
+</div>
+
+<div class="result">
+<div class="result-item">
+<small>Период T</small>
+<strong id="period">2.01 с</strong>
+</div>
+
+<div class="result-item">
+<small>g</small>
+<strong>9.8 м/с²</strong>
+</div>
+</div>
+
+<canvas id="pendulumCanvas" class="lab-canvas"></canvas>
+
+<div class="lab-question">
+<strong>Зертханалық сұрақ:</strong>
+<p>
+Маятниктің ұзындығын арттырғанда оның тербеліс периоды қалай өзгереді?
+</p>
+</div>
+
+</div>
+</div>
+
+
+<!-- LAB 4 -->
+
+<div class="lab">
+
+<div class="lab-header">
+<h3>04. Беттік толқындар</h3>
+<p>Толқын жылдамдығын жиілік пен толқын ұзындығы арқылы зерттеу.</p>
+</div>
+
+<div class="lab-body">
+
+<div class="controls">
+
+<div class="control">
+<label>
+<span>Толқын ұзындығы λ</span>
+<strong id="lambdaValue">2.0 м</strong>
+</label>
+<input id="lambda" type="range" min=".5" max="5" step=".1" value="2">
+</div>
+
+<div class="control">
+<label>
+<span>Жиілік f</span>
+<strong id="frequencyValue">1.0 Гц</strong>
+</label>
+<input id="frequency" type="range" min=".2" max="5" step=".1" value="1">
+</div>
+
+<div class="control">
+<label>
+<span>Амплитуда A</span>
+<strong id="amplitudeValue">20</strong>
+</label>
+<input id="amplitude" type="range" min="5" max="50" value="20">
+</div>
+
+</div>
+
+<div class="result">
+<div class="result-item">
+<small>Толқын жылдамдығы</small>
+<strong id="waveSpeed">2.0 м/с</strong>
+</div>
+
+<div class="result-item">
+<small>Жиілік</small>
+<strong id="waveFrequency">1.0 Гц</strong>
+</div>
+</div>
+
+<canvas id="waveCanvas" class="lab-canvas"></canvas>
+
+<div class="lab-question">
+<strong>Зертханалық сұрақ:</strong>
+<p>
+Толқын ұзындығы өзгермей, жиілікті көбейтсек, толқын жылдамдығы қалай өзгереді?
+</p>
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<!-- EXTRA MINI LABS -->
+
+<h2 style="margin-top:70px">Қосымша виртуалды тәжірибелер</h2>
+
+<div class="extra-labs">
+
+<div class="mini-lab">
+<h3>Тығыздық тәжірибесі</h3>
+<p>Масса мен көлем арқылы дененің тығыздығын анықта.</p>
+<div>
+<input id="densityMass" class="number-input" type="number" value="500" placeholder="Масса, г">
+<br><br>
+<input id="densityVolume" class="number-input" type="number" value="200" placeholder="Көлем, см³">
+</div>
+<div class="mini-result" id="densityResult">ρ = 2.50 г/см³</div>
+</div>
+
+<div class="mini-lab">
+<h3>Ом заңы</h3>
+<p>Кернеу мен кедергіні өзгертіп, ток күшін есепте.</p>
+<input id="ohmVoltage" class="number-input" type="number" value="12" placeholder="U">
+<br><br>
+<input id="ohmResistance" class="number-input" type="number" value="4" placeholder="R">
+<div class="mini-result" id="ohmResult">I = 3.00 A</div>
+</div>
+
+<div class="mini-lab">
+<h3>Қысым тәжірибесі</h3>
+<p>Күш пен аудан арқылы қысымды анықта.</p>
+<input id="pressureForce" class="number-input" type="number" value="100" placeholder="F, Н">
+<br><br>
+<input id="pressureArea" class="number-input" type="number" value="2" placeholder="S, м²">
+<div class="mini-result" id="pressureResult">p = 50 Па</div>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- FORMULAS -->
+
+<section id="formulas">
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">03 / Формула базасы</div>
+<h2>Негізгі формулалар</h2>
+<p>Емтиханға, бақылауға және зертханалық жұмысқа қажетті негізгі формулалар.</p>
+</div>
+
+<div class="formula-grid">
+
+<div class="formula-card">
+<h3>Жылдамдық</h3>
+<div class="formula">v = s/t</div>
+<p>s — жол, t — уақыт.</p>
+</div>
+
+<div class="formula-card">
+<h3>Үдеу</h3>
+<div class="formula">a = Δv/t</div>
+<p>Жылдамдықтың өзгеру қарқыны.</p>
+</div>
+
+<div class="formula-card">
+<h3>Ньютон II заңы</h3>
+<div class="formula">F = ma</div>
+<p>Күш, масса және үдеу арасындағы байланыс.</p>
+</div>
+
+<div class="formula-card">
+<h3>Ауырлық күші</h3>
+<div class="formula">F = mg</div>
+<p>g ≈ 9.8 м/с².</p>
+</div>
+
+<div class="formula-card">
+<h3>Механикалық жұмыс</h3>
+<div class="formula">A = Fs</div>
+<p>Күш бағыты орын ауыстырумен сәйкес болғанда.</p>
+</div>
+
+<div class="formula-card">
+<h3>Кинетикалық энергия</h3>
+<div class="formula">Eₖ = mv²/2</div>
+<p>Қозғалып тұрған дененің энергиясы.</p>
+</div>
+
+<div class="formula-card">
+<h3>Потенциалдық энергия</h3>
+<div class="formula">Eₚ = mgh</div>
+<p>Дененің биіктікке байланысты энергиясы.</p>
+</div>
+
+<div class="formula-card">
+<h3>Қысым</h3>
+<div class="formula">p = F/S</div>
+<p>Күштің ауданға қатынасы.</p>
+</div>
+
+<div class="formula-card">
+<h3>Ом заңы</h3>
+<div class="formula">I = U/R</div>
+<p>Ток күші, кернеу және кедергі.</p>
+</div>
+
+<div class="formula-card">
+<h3>Толқын жылдамдығы</h3>
+<div class="formula">v = λf</div>
+<p>Толқын ұзындығы мен жиілік арқылы.</p>
+</div>
+
+<div class="formula-card">
+<h3>Период және жиілік</h3>
+<div class="formula">f = 1/T</div>
+<p>Жиілік периодқа кері пропорционал.</p>
+</div>
+
+<div class="formula-card">
+<h3>Маятник</h3>
+<div class="formula">T = 2π√(L/g)</div>
+<p>Математикалық маятниктің периоды.</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- DATA ANALYSIS -->
+
+<section id="data">
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">04 / Эксперимент</div>
+<h2>Өлшеу және деректерді талдау</h2>
+<p>
+Эксперимент нәтижелерін енгізіп, орташа мәнді және тәжірибелік
+g шамасын анықта.
+</p>
+</div>
+
+<div class="data-layout">
+
+<div class="panel">
+
+<h3>Жаңа өлшем енгізу</h3>
+
+<div class="measure-row">
+
+<input id="measureL" class="number-input" type="number" step=".01" value="1.00" placeholder="L, м">
+
+<input id="measureT" class="number-input" type="number" step=".01" value="2.01" placeholder="T, с">
+
+<button id="addMeasure" class="btn btn-primary">Қосу</button>
+
+</div>
+
+<div class="result">
+
+<div class="result-item">
+<small>Орташа g</small>
+<strong id="averageG">9.78 м/с²</strong>
+</div>
+
+<div class="result-item">
+<small>Өлшеулер саны</small>
+<strong id="measureCount">4</strong>
+</div>
+
+</div>
+
+<button id="clearMeasures" class="btn btn-secondary">
+Барлығын тазалау
+</button>
+
+</div>
+
+<div class="panel">
+
+<h3>Өлшеу кестесі</h3>
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>L, м</th>
+<th>T, с</th>
+<th>g, м/с²</th>
+</tr>
+</thead>
+
+<tbody id="measureTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- AI -->
+
+<section id="ai">
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">05 / AI Tutor</div>
+<h2>PHYSLAB AI Tutor</h2>
+<p>
+Физика бойынша сұрақ қой. Tutor формуланы, ұғымды және
+есеп шығару жолын түсіндіруге көмектеседі.
+</p>
+</div>
+
+<div class="ai-layout">
+
+<div class="ai-info">
+
+<h3>AI Tutor не істей алады?</h3>
+
+<ul>
+<li>Формулаларды түсіндіреді</li>
+<li>Физикалық терминдерді түсіндіреді</li>
+<li>Зертханалық сұрақтарға дайындалуға көмектеседі</li>
+<li>Өлшем бірліктерін түсіндіреді</li>
+<li>Есепті қадамдарға бөлуге көмектеседі</li>
+<li>Қысқа конспект береді</li>
+</ul>
+
+<br>
+
+<p style="color:var(--muted)">
+Мысалы:
+</p>
+
+<div class="topic-tags">
+<span class="tag">«Ньютонның 2 заңы?»</span>
+<span class="tag">«Ом заңы?»</span>
+<span class="tag">«Маятник формуласы?»</span>
+<span class="tag">«Үдеу деген не?»</span>
+</div>
+
+</div>
+
+<div class="chat">
+
+<div class="chat-messages" id="chatMessages">
+
+<div class="message bot">
+Сәлем! Мен PHYSLAB AI Tutor. Физикадан сұрағыңды жаз.
+</div>
+
+</div>
+
+<div class="chat-input">
+
+<input id="chatInput" placeholder="Мысалы: Ньютонның екінші заңы қандай?">
+
+<button id="sendChat" class="btn btn-primary">
+Жіберу
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- CHALLENGE -->
+
+<section id="challenge">
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">06 / Challenge</div>
+<h2>Физика Challenge</h2>
+<p>Біліміңді тексер. Дұрыс жауаптарды таңда.</p>
+</div>
+
+<div class="challenge">
+
+<div class="question-card" data-answer="1">
+
+<h3>1. Үдеудің өлшем бірлігі қандай?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">м/с</button>
+<button class="answer" data-value="1">м/с²</button>
+<button class="answer" data-value="2">Н</button>
+<button class="answer" data-value="3">Дж</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="2">
+
+<h3>2. Математикалық маятниктің периодының формуласы?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">F = ma</button>
+<button class="answer" data-value="1">v = s/t</button>
+<button class="answer" data-value="2">T = 2π√(L/g)</button>
+<button class="answer" data-value="3">p = F/S</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="0">
+
+<h3>3. Ньютонның екінші заңы?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">F = ma</button>
+<button class="answer" data-value="1">A = Fs</button>
+<button class="answer" data-value="2">v = λf</button>
+<button class="answer" data-value="3">I = U/R</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="3">
+
+<h3>4. Толқын жылдамдығы қалай есептеледі?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">v = s/t</button>
+<button class="answer" data-value="1">F = ma</button>
+<button class="answer" data-value="2">p = F/S</button>
+<button class="answer" data-value="3">v = λf</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="1">
+
+<h3>5. Жердегі еркін түсу үдеуі шамамен қанша?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">5 м/с²</button>
+<button class="answer" data-value="1">9.8 м/с²</button>
+<button class="answer" data-value="2">20 м/с²</button>
+<button class="answer" data-value="3">100 м/с²</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="0">
+
+<h3>6. Ом заңының дұрыс формуласы?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">I = U/R</button>
+<button class="answer" data-value="1">F = ma</button>
+<button class="answer" data-value="2">E = mc²</button>
+<button class="answer" data-value="3">p = ρgh</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="2">
+
+<h3>7. Қысымның формуласы?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">A = Fs</button>
+<button class="answer" data-value="1">v = λf</button>
+<button class="answer" data-value="2">p = F/S</button>
+<button class="answer" data-value="3">I = q/t</button>
+</div>
+
+</div>
+
+
+<div class="question-card" data-answer="3">
+
+<h3>8. Кинетикалық энергияның формуласы?</h3>
+
+<div class="answers">
+<button class="answer" data-value="0">mgh</button>
+<button class="answer" data-value="1">Fs</button>
+<button class="answer" data-value="2">U/R</button>
+<button class="answer" data-value="3">mv²/2</button>
+</div>
+
+</div>
+
+<div class="score">
+Нәтиже: <span id="score">0</span> / 8
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- PROJECT -->
+
+<section>
+
+<div class="container">
+
+<div class="section-head">
+<div class="eyebrow">07 / Project</div>
+<h2>PHYSLAB AI концепциясы</h2>
+<p>
+Физиканы цифрлық ортада зерттеуге арналған заманауи оқу жүйесі.
+</p>
+</div>
+
+<div class="project">
+
+<div class="project-card">
+
+<h3>Оқушы үшін</h3>
+
+<ul>
+<li>Тақырып бойынша теория</li>
+<li>Қысқа конспект</li>
+<li>Формула базасы</li>
+<li>Виртуалды зертхана</li>
+<li>Зертханалық сұрақтар</li>
+<li>Эксперимент нәтижесін талдау</li>
+<li>AI Tutor</li>
+<li>Білімді тексеру</li>
+</ul>
+
+</div>
+
+<div class="project-card">
+
+<h3>Негізгі идея</h3>
+
+<p>
+Оқушы формуланы жай жаттамайды.
+Ол параметрді өзгертеді, тәжірибе жасайды,
+нәтижені бақылайды және физикалық заңдылықты
+өз бетімен түсінеді.
+</p>
+
+<br>
+
+<p>
+<strong style="color:var(--cyan)">
+Теория → Формула → Тәжірибе → Талдау → Қорытынды
+</strong>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<div class="footer-logo">
+PHYS<span>LAB</span> AI
+</div>
+
+<p>
+Интерактивті физика зертханасы · 8–9 сынып
+</p>
+
+<p style="margin-top:8px;font-size:12px">
+Browser-based educational prototype
+</p>
+
+</div>
+
+</footer>
+
+
+<script>
+
+/* =========================
+   HERO CANVAS
+========================= */
+
+const heroCanvas=document.getElementById("heroCanvas");
+const heroCtx=heroCanvas.getContext("2d");
+
+function resizeCanvas(canvas){
+    const rect=canvas.getBoundingClientRect();
+    const dpr=window.devicePixelRatio||1;
+
+    canvas.width=rect.width*dpr;
+    canvas.height=rect.height*dpr;
+
+    const ctx=canvas.getContext("2d");
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+function resizeAll(){
+    document.querySelectorAll("canvas").forEach(c=>resizeCanvas(c));
+}
+
+window.addEventListener("resize",resizeAll);
+resizeAll();
+
+let heroTime=0;
+
+function drawHero(){
+    const w=heroCanvas.clientWidth;
+    const h=heroCanvas.clientHeight;
+
+    heroCtx.clearRect(0,0,w,h);
+
+    heroCtx.strokeStyle="rgba(0,229,255,.07)";
+    heroCtx.lineWidth=1;
+
+    for(let x=0;x<w;x+=40){
+        heroCtx.beginPath();
+        heroCtx.moveTo(x,0);
+        heroCtx.lineTo(x,h);
+        heroCtx.stroke();
+    }
+
+    for(let y=0;y<h;y+=40){
+        heroCtx.beginPath();
+        heroCtx.moveTo(0,y);
+        heroCtx.lineTo(w,y);
+        heroCtx.stroke();
+    }
+
+    const cx=w/2;
+    const cy=h/2;
+
+    heroCtx.beginPath();
+
+    for(let x=0;x<w;x+=3){
+        const y=cy+
+            Math.sin(x*.025+heroTime)*35+
+            Math.sin(x*.07+heroTime*1.5)*12;
+
+        if(x===0) heroCtx.moveTo(x,y);
+        else heroCtx.lineTo(x,y);
+    }
+
+    heroCtx.strokeStyle="#00e5ff";
+    heroCtx.lineWidth=3;
+    heroCtx.stroke();
+
+    for(let i=0;i<7;i++){
+
+        const angle=heroTime*.5+i*.9;
+        const radius=80+i*18;
+
+        const x=cx+Math.cos(angle)*radius;
+        const y=cy+Math.sin(angle)*radius;
+
+        heroCtx.beginPath();
+        heroCtx.arc(x,y,3+i*.5,0,Math.PI*2);
+        heroCtx.fillStyle="#39ff88";
+        heroCtx.fill();
+    }
+
+    heroTime+=.015;
+
+    requestAnimationFrame(drawHero);
+}
+
+drawHero();
+
+
+/* =========================
+   LAB 1
+========================= */
+
+const v0=document.getElementById("v0");
+const acceleration=document.getElementById("acceleration");
+const time=document.getElementById("time");
+
+const motionCanvas=document.getElementById("motionCanvas");
+const motionCtx=motionCanvas.getContext("2d");
+
+function updateMotion(){
+
+    const v0n=Number(v0.value);
+    const a=Number(acceleration.value);
+    const t=Number(time.value);
+
+    const v=v0n+a*t;
+    const s=v0n*t+(a*t*t)/2;
+
+    document.getElementById("v0Value").textContent=v0n+" м/с";
+    document.getElementById("aValue").textContent=a+" м/с²";
+    document.getElementById("timeValue").textContent=t+" с";
+
+    document.getElementById("finalVelocity").textContent=v.toFixed(2)+" м/с";
+    document.getElementById("distance").textContent=s.toFixed(2)+" м";
+
+    drawMotion(v0n,a,t,s);
+}
+
+function drawMotion(v0n,a,t,s){
+
+    const w=motionCanvas.clientWidth;
+    const h=motionCanvas.clientHeight;
+
+    motionCtx.clearRect(0,0,w,h);
+
+    motionCtx.strokeStyle="#183044";
+    motionCtx.beginPath();
+    motionCtx.moveTo(20,h-45);
+    motionCtx.lineTo(w-20,h-45);
+    motionCtx.stroke();
+
+    const maxDistance=Math.max(Math.abs(s),1);
+    const progress=Math.min(Math.abs(s)/maxDistance,1);
+
+    const x=30+progress*(w-60);
+
+    motionCtx.beginPath();
+    motionCtx.arc(x,h-45,14,0,Math.PI*2);
+    motionCtx.fillStyle="#00e5ff";
+    motionCtx.fill();
+
+    motionCtx.fillStyle="#8fa4bb";
+    motionCtx.font="13px Arial";
+    motionCtx.fillText("s = "+s.toFixed(2)+" м",25,25);
+}
+
+[v0,acceleration,time].forEach(el=>{
+    el.addEventListener("input",updateMotion);
+});
+
+updateMotion();
+
+
+/* =========================
+   LAB 2 PROJECTILE
+========================= */
+
+const projectileV=document.getElementById("projectileV");
+const height=document.getElementById("height");
+const gravity=document.getElementById("gravity");
+
+const projectileCanvas=document.getElementById("projectileCanvas");
+const projectileCtx=projectileCanvas.getContext("2d");
+
+function updateProjectile(){
+
+    const v=Number(projectileV.value);
+    const h=Number(height.value);
+    const g=Number(gravity.value);
+
+    const flight=Math.sqrt(2*h/g);
+    const range=v*flight;
+
+    document.getElementById("projectileVValue").textContent=v+" м/с";
+    document.getElementById("heightValue").textContent=h+" м";
+    document.getElementById("gValue").textContent=g.toFixed(1)+" м/с²";
+
+    document.getElementById("flightTime").textContent=flight.toFixed(2)+" с";
+    document.getElementById("range").textContent=range.toFixed(2)+" м";
+
+    drawProjectile(v,h,g,range);
+}
+
+function drawProjectile(v,h,g,range){
+
+    const w=projectileCanvas.clientWidth;
+    const H=projectileCanvas.clientHeight;
+
+    projectileCtx.clearRect(0,0,w,H);
+
+    const startX=35;
+    const ground=H-35;
+
+    projectileCtx.strokeStyle="#183044";
+    projectileCtx.beginPath();
+    projectileCtx.moveTo(20,ground);
+    projectileCtx.lineTo(w-20,ground);
+    projectileCtx.stroke();
+
+    projectileCtx.strokeStyle="#00e5ff";
+    projectileCtx.lineWidth=3;
+    projectileCtx.beginPath();
+
+    for(let px=0;px<w-60;px+=4){
+
+        const normalized=px/(w-60);
+        const t=normalized*Math.sqrt(2*h/g);
+
+        const x=startX+px;
+        const y=ground-(h-.5*g*t*t)/h*(ground-35);
+
+        if(px===0) projectileCtx.moveTo(x,y);
+        else projectileCtx.lineTo(x,y);
+    }
+
+    projectileCtx.stroke();
+
+    projectileCtx.fillStyle="#39ff88";
+    projectileCtx.beginPath();
+    projectileCtx.arc(startX,35,7,0,Math.PI*2);
+    projectileCtx.fill();
+}
+
+[projectileV,height,gravity].forEach(el=>{
+    el.addEventListener("input",updateProjectile);
+});
+
+updateProjectile();
+
+
+/* =========================
+   LAB 3 PENDULUM
+========================= */
+
+const lengthSlider=document.getElementById("length");
+const pendulumCanvas=document.getElementById("pendulumCanvas");
+const pendulumCtx=pendulumCanvas.getContext("2d");
+
+let pendulumTime=0;
+
+function updatePendulum(){
+
+    const L=Number(lengthSlider.value);
+
+    const g=9.8;
+    const T=2*Math.PI*Math.sqrt(L/g);
+
+    document.getElementById("lengthValue").textContent=L.toFixed(2)+" м";
+    document.getElementById("period").textContent=T.toFixed(2)+" с";
+}
+
+function drawPendulum(){
+
+    const w=pendulumCanvas.clientWidth;
+    const h=pendulumCanvas.clientHeight;
+
+    pendulumCtx.clearRect(0,0,w,h);
+
+    const cx=w/2;
+    const top=25;
+
+    const L=Number(lengthSlider.value);
+
+    const rod=Math.min(150,L*100);
+
+    const angle=.55*Math.sin(pendulumTime);
+
+    const bx=cx+Math.sin(angle)*rod;
+    const by=top+Math.cos(angle)*rod;
+
+    pendulumCtx.strokeStyle="#183044";
+    pendulumCtx.lineWidth=2;
+
+    pendulumCtx.beginPath();
+    pendulumCtx.moveTo(cx,top);
+    pendulumCtx.lineTo(bx,by);
+    pendulumCtx.stroke();
+
+    pendulumCtx.fillStyle="#00e5ff";
+    pendulumCtx.beginPath();
+    pendulumCtx.arc(cx,top,5,0,Math.PI*2);
+    pendulumCtx.fill();
+
+    pendulumCtx.fillStyle="#39ff88";
+    pendulumCtx.beginPath();
+    pendulumCtx.arc(bx,by,16,0,Math.PI*2);
+    pendulumCtx.fill();
+
+    pendulumTime+=.035;
+
+    requestAnimationFrame(drawPendulum);
+}
+
+lengthSlider.addEventListener("input",updatePendulum);
+
+updatePendulum();
+drawPendulum();
+
+
+/* =========================
+   LAB 4 WAVE
+========================= */
+
+const lambda=document.getElementById("lambda");
+const frequency=document.getElementById("frequency");
+const amplitude=document.getElementById("amplitude");
+
+const waveCanvas=document.getElementById("waveCanvas");
+const waveCtx=waveCanvas.getContext("2d");
+
+let waveTime=0;
+
+function updateWave(){
+
+    const l=Number(lambda.value);
+    const f=Number(frequency.value);
+    const A=Number(amplitude.value);
+
+    const speed=l*f;
+
+    document.getElementById("lambdaValue").textContent=l.toFixed(1)+" м";
+    document.getElementById("frequencyValue").textContent=f.toFixed(1)+" Гц";
+    document.getElementById("amplitudeValue").textContent=A;
+
+    document.getElementById("waveSpeed").textContent=speed.toFixed(2)+" м/с";
+    document.getElementById("waveFrequency").textContent=f.toFixed(1)+" Гц";
+}
+
+function drawWave(){
+
+    const w=waveCanvas.clientWidth;
+    const h=waveCanvas.clientHeight;
+
+    waveCtx.clearRect(0,0,w,h);
+
+    const l=Number(lambda.value);
+    const f=Number(frequency.value);
+    const A=Number(amplitude.value);
+
+    const center=h/2;
+
+    waveCtx.beginPath();
+
+    for(let x=0;x<w;x+=3){
+
+        const y=
+            center+
+            A*.65*
+            Math.sin((x/(l*35))*Math.PI*2-waveTime*f*2);
+        
+        if(x===0) waveCtx.moveTo(x,y);
+        else waveCtx.lineTo(x,y);
+    }
+
+    waveCtx.strokeStyle="#00e5ff";
+    waveCtx.lineWidth=3;
+    waveCtx.stroke();
+
+    waveTime+=.01;
+
+    requestAnimationFrame(drawWave);
+}
+
+[lambda,frequency,amplitude].forEach(el=>{
+    el.addEventListener("input",updateWave);
+});
+
+updateWave();
+drawWave();
+
+
+/* =========================
+   EXTRA LABS
+========================= */
+
+function updateDensity(){
+
+    const m=Number(document.getElementById("densityMass").value);
+    const V=Number(document.getElementById("densityVolume").value);
+
+    if(V>0){
+        document.getElementById("densityResult").textContent=
+            "ρ = "+(m/V).toFixed(2)+" г/см³";
+    }
+}
+
+function updateOhm(){
+
+    const U=Number(document.getElementById("ohmVoltage").value);
+    const R=Number(document.getElementById("ohmResistance").value);
+
+    if(R>0){
+        document.getElementById("ohmResult").textContent=
+            "I = "+(U/R).toFixed(2)+" A";
+    }
+}
+
+function updatePressure(){
+
+    const F=Number(document.getElementById("pressureForce").value);
+    const S=Number(document.getElementById("pressureArea").value);
+
+    if(S>0){
+        document.getElementById("pressureResult").textContent=
+            "p = "+(F/S).toFixed(2)+" Па";
+    }
+}
+
+document.getElementById("densityMass")
+.addEventListener("input",updateDensity);
+
+document.getElementById("densityVolume")
+.addEventListener("input",updateDensity);
+
+document.getElementById("ohmVoltage")
+.addEventListener("input",updateOhm);
+
+document.getElementById("ohmResistance")
+.addEventListener("input",updateOhm);
+
+document.getElementById("pressureForce")
+.addEventListener("input",updatePressure);
+
+document.getElementById("pressureArea")
+.addEventListener("input",updatePressure);
+
+
+/* =========================
+   MEASUREMENTS
+========================= */
+
+let measurements=[
+    {L:.50,T:1.42},
+    {L:.75,T:1.74},
+    {L:1.00,T:2.01},
+    {L:1.25,T:2.24}
+];
+
+function calculateG(L,T){
+    return 4*Math.PI*Math.PI*L/(T*T);
+}
+
+function renderMeasurements(){
+
+    const table=document.getElementById("measureTable");
+
+    table.innerHTML="";
+
+    let total=0;
+
+    measurements.forEach((m,index)=>{
+
+        const g=calculateG(m.L,m.T);
+
+        total+=g;
+
+        const tr=document.createElement("tr");
+
+        tr.innerHTML=`
+            <td>${index+1}</td>
+            <td>${m.L.toFixed(2)}</td>
+            <td>${m.T.toFixed(2)}</td>
+            <td>${g.toFixed(2)}</td>
+        `;
+
+        table.appendChild(tr);
+    });
+
+    const avg=measurements.length
+        ? total/measurements.length
+        : 0;
+
+    document.getElementById("averageG").textContent=
+        avg.toFixed(2)+" м/с²";
+
+    document.getElementById("measureCount").textContent=
+        measurements.length;
+}
+
+document.getElementById("addMeasure")
+.addEventListener("click",()=>{
+
+    const L=Number(document.getElementById("measureL").value);
+    const T=Number(document.getElementById("measureT").value);
+
+    if(L>0 && T>0){
+
+        measurements.push({L,T});
+
+        renderMeasurements();
+    }
+});
+
+document.getElementById("clearMeasures")
+.addEventListener("click",()=>{
+
+    measurements=[];
+
+    renderMeasurements();
+});
+
+renderMeasurements();
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document.getElementById("topicSearch")
+.addEventListener("input",function(){
+
+    const query=this.value.toLowerCase();
+
+    document.querySelectorAll(".topic-card")
+    .forEach(card=>{
+
+        const text=card.innerText.toLowerCase();
+        const data=card.dataset.search.toLowerCase();
+
+        if(text.includes(query)||data.includes(query)){
+            card.style.display="";
+        }else{
+            card.style.display="none";
+        }
+
+    });
+});
+
+
+/* =========================
+   AI TUTOR
+========================= */
+
+const chatMessages=document.getElementById("chatMessages");
+const chatInput=document.getElementById("chatInput");
+const sendChat=document.getElementById("sendChat");
+
+function addMessage(text,type){
+
+    const div=document.createElement("div");
+
+    div.className="message "+type;
+    div.textContent=text;
+
+    chatMessages.appendChild(div);
+
+    chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+
+function getAIAnswer(question){
+
+    const q=question.toLowerCase();
+
+    if(q.includes("ньютон")||q.includes("f=ma")||q.includes("күш")){
+        return "Ньютонның екінші заңы: F = ma. Мұнда F — күш (Н), m — масса (кг), a — үдеу (м/с²). Яғни бірдей масса үшін күш артса, үдеу де артады.";
+    }
+
+    if(q.includes("ом")||q.includes("электр")||q.includes("кернеу")){
+        return "Ом заңы: I = U/R. I — ток күші (А), U — кернеу (В), R — кедергі (Ом). Кернеу артса, кедергі тұрақты болған жағдайда ток күші артады.";
+    }
+
+    if(q.includes("маятник")||q.includes("период")){
+        return "Математикалық маятниктің периоды: T = 2π√(L/g). Маятниктің ұзындығы L артқан сайын период та артады.";
+    }
+
+    if(q.includes("толқын")){
+        return "Толқын жылдамдығы v = λf формуласы арқылы есептеледі. λ — толқын ұзындығы, f — жиілік.";
+    }
+
+    if(q.includes("үдеу")){
+        return "Үдеу — жылдамдықтың уақыт бойынша өзгеруі. Формуласы: a = (v − v₀)/t. Өлшем бірлігі — м/с².";
+    }
+
+    if(q.includes("жылдамдық")){
+        return "Жылдамдықтың негізгі формуласы: v = s/t. Яғни жүрілген жолды уақытқа бөлеміз.";
+    }
+
+    if(q.includes("қысым")){
+        return "Қысымның формуласы: p = F/S. Күш артса қысым артады, ал аудан артса қысым азаяды.";
+    }
+
+    if(q.includes("энергия")){
+        return "Кинетикалық энергия: Eₖ = mv²/2. Потенциалдық энергия: Eₚ = mgh.";
+    }
+
+    if(q.includes("жұмыс")){
+        return "Механикалық жұмыс: A = Fs. Егер күш пен орын ауыстыру бір бағытта болса, жұмыс күш пен жолдың көбейтіндісіне тең.";
+    }
+
+    if(q.includes("гравита")||q.includes("еркін түсу")){
+        return "Жер бетіндегі еркін түсу үдеуі шамамен g = 9.8 м/с². Ауырлық күші F = mg.";
+    }
+
+    if(q.includes("формула")){
+        return "Қай формула керек? Мысалы: жылдамдық, үдеу, Ньютон заңы, Ом заңы, қысым, энергия немесе толқын формуласы.";
+    }
+
+    if(q.includes("сәлем")||q.includes("привет")){
+        return "Сәлем! Физикадан сұрағыңды қой. Мен формуланы және оның мағынасын түсіндіруге көмектесемін.";
+    }
+
+    return "Бұл сұрақты толық түсінбедім. Сұрақты физикалық терминмен нақтылап көр: мысалы, «үдеу деген не?», «Ом заңы қандай?», «маятник формуласы?» немесе «Ньютонның екінші заңы?»";
+}
+
+function sendQuestion(){
+
+    const question=chatInput.value.trim();
+
+    if(!question) return;
+
+    addMessage(question,"user");
+
+    chatInput.value="";
+
+    setTimeout(()=>{
+
+        const answer=getAIAnswer(question);
+
+        addMessage(answer,"bot");
+
+    },300);
+}
+
+sendChat.addEventListener("click",sendQuestion);
+
+chatInput.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+        sendQuestion();
+    }
+});
+
+
+/* =========================
+   CHALLENGE
+========================= */
+
+let score=0;
+let answered=0;
+
+document.querySelectorAll(".question-card")
+.forEach(question=>{
+
+    question.querySelectorAll(".answer")
+    .forEach(button=>{
+
+        button.addEventListener("click",()=>{
+
+            if(question.dataset.done==="true") return;
+
+            question.dataset.done="true";
+            answered++;
+
+            const correct=question.dataset.answer;
+            const selected=button.dataset.value;
+
+            if(selected===correct){
+
+                button.classList.add("correct");
+                score++;
+
+            }else{
+
+                button.classList.add("wrong");
+
+                question.querySelector(
+                    `.answer[data-value="${correct}"]`
+                ).classList.add("correct");
+            }
+
+            document.getElementById("score").textContent=score;
+
+            if(answered===8){
+
+                setTimeout(()=>{
+
+                    let text="Жақсы жұмыс!";
+
+                    if(score===8){
+                        text="Керемет! 8/8 — физиканы өте жақсы меңгеріп келесің.";
+                    }else if(score>=6){
+                        text="Өте жақсы нәтиже! Тақырыптарды тағы бір қайталап көр.";
+                    }else if(score>=4){
+                        text="Жаман емес. Формулалар бөлімін қайталап, қайта сынап көр.";
+                    }else{
+                        text="Тақырыптарды қарап шық та, Challenge-ді қайта орында.";
+                    }
+
+                    alert(text);
+
+                },300);
+
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
