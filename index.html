@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHYSLAB AI — Физикалық зертхана</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+font-family:Arial,sans-serif;
+background:#050b18;
+color:#eaf6ff;
+line-height:1.6;
+}
+header{
+position:sticky;top:0;z-index:100;
+background:rgba(5,11,24,.94);
+backdrop-filter:blur(15px);
+border-bottom:1px solid #16304d;
+}
+nav{
+max-width:1200px;margin:auto;
+display:flex;align-items:center;justify-content:space-between;
+padding:16px 20px;
+}
+.logo{font-size:24px;font-weight:900;color:#42e8ff}
+nav a{
+color:#d8ecff;text-decoration:none;margin-left:20px;
+font-weight:700;
+}
+nav a:hover{color:#42e8ff}
+.hero{
+min-height:620px;
+display:flex;align-items:center;
+justify-content:center;text-align:center;
+padding:80px 20px;
+background:
+radial-gradient(circle at 50% 30%,rgba(0,220,255,.15),transparent 35%),
+linear-gradient(180deg,#071326,#050b18);
+}
+.hero h1{font-size:clamp(45px,8vw,90px);color:#42e8ff}
+.hero h2{font-size:clamp(24px,4vw,40px);margin:10px 0}
+.hero p{max-width:750px;margin:20px auto;color:#a9c5d8;font-size:18px}
+.btn{
+display:inline-block;padding:14px 25px;margin:8px;
+border-radius:12px;text-decoration:none;
+font-weight:800;cursor:pointer;
+border:1px solid #28dff5;
+background:#0a1b31;color:#fff;
+}
+.btn:hover{background:#123454}
+section{max-width:1200px;margin:auto;padding:80px 20px}
+.section-title{text-align:center;font-size:38px;margin-bottom:15px;color:#42e8ff}
+.section-sub{text-align:center;color:#91aabd;margin-bottom:45px}
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+gap:20px;
+}
+.card{
+background:linear-gradient(145deg,#0a1729,#07101f);
+border:1px solid #163652;
+border-radius:20px;
+padding:25px;
+box-shadow:0 0 25px rgba(0,210,255,.05);
+}
+.card:hover{border-color:#42e8ff;transform:translateY(-4px)}
+.card h3{color:#42e8ff;margin-bottom:12px}
+.card p{color:#b4c8d7}
+.formula{
+background:#030812;
+border-left:4px solid #42e8ff;
+padding:15px;margin:15px 0;
+font-size:19px;color:#fff;
+border-radius:8px;
+}
+.note{
+background:#0b2034;
+padding:14px;border-radius:10px;
+margin-top:15px;color:#bfeeff;
+}
+.topic{
+margin-bottom:20px;
+}
+.topic button{
+width:100%;text-align:left;
+background:#0b192c;color:white;
+border:1px solid #193c58;
+padding:20px;border-radius:14px;
+font-size:18px;font-weight:bold;
+cursor:pointer;
+}
+.topic button:hover{border-color:#42e8ff}
+.topic-content{
+display:none;
+background:#071323;
+padding:25px;
+border:1px solid #17354e;
+border-top:0;
+border-radius:0 0 14px 14px;
+}
+.topic-content.open{display:block}
+.topic-content ul{padding-left:25px}
+.lab{
+background:linear-gradient(145deg,#08182a,#050d19);
+border:1px solid #1a4662;
+border-radius:25px;
+padding:30px;
+margin-bottom:45px;
+box-shadow:0 0 35px rgba(0,210,255,.06);
+}
+.lab h3{font-size:28px;color:#42e8ff;margin-bottom:10px}
+.lab-grid{
+display:grid;
+grid-template-columns:1.5fr 1fr;
+gap:25px;
+align-items:center;
+}
+canvas{
+width:100%;
+height:360px;
+display:block;
+background:#020711;
+border:1px solid #15354e;
+border-radius:18px;
+}
+.controls{
+background:#071323;
+padding:20px;border-radius:18px;
+border:1px solid #163652;
+}
+.control{margin-bottom:18px}
+.control label{display:flex;justify-content:space-between;margin-bottom:5px}
+input[type=range]{width:100%;accent-color:#42e8ff}
+.result{
+font-size:18px;
+background:#020a14;
+padding:14px;
+border-radius:10px;
+margin-top:15px;
+}
+.test-box{
+max-width:850px;margin:auto;
+background:#08172a;
+border:1px solid #19415d;
+padding:30px;border-radius:20px;
+}
+.question{
+padding:20px 0;
+border-bottom:1px solid #17354e;
+}
+.question label{display:block;padding:7px;color:#c9dceb;cursor:pointer}
+#score{
+font-size:28px;color:#42e8ff;
+margin-top:20px;
+font-weight:bold;
+}
+footer{
+background:#020711;
+border-top:1px solid #16304d;
+padding:50px 20px;text-align:center;
+color:#9eb4c4;
+}
+footer strong{color:#42e8ff}
+@media(max-width:800px){
+nav{flex-direction:column;gap:10px}
+nav a{margin:0 7px;font-size:14px}
+.lab-grid{grid-template-columns:1fr}
+canvas{height:280px}
+section{padding:55px 14px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+<div class="logo">PHYSLAB AI</div>
+<div>
+<a href="#home">Басты бет</a>
+<a href="#topics">Тақырыптар</a>
+<a href="#labs">Зертханалар</a>
+<a href="#test">Тест</a>
+</div>
+</nav>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+<div>
+<h1>PHYSLAB AI</h1>
+<h2>Физикалық зертхана</h2>
+<p>
+Физиканы формула жаттау арқылы ғана емес, тәжірибе,
+модельдеу және интерактивті симуляциялар арқылы үйренуге арналған білім беру платформасы.
+</p>
+<a class="btn" href="#labs">Зертханаларды бастау</a>
+<a class="btn" href="#topics">Тақырыптарды оқу</a>
+</div>
+</section>
+
+<section id="topics">
+<h2 class="section-title">8–9 сынып физикасы</h2>
+<p class="section-sub">Теория, формулалар, түсіндірмелер және негізгі ұғымдар</p>
+
+<div id="topicList"></div>
+</section>
+
+<section id="labs">
+<h2 class="section-title">Интерактивті зертханалар</h2>
+<p class="section-sub">
+Параметрлерді өзгертіп, физикалық құбылыстың қалай өзгеретінін бақылаңыз.
+</p>
+
+<div class="lab">
+<h3>1. Теңүдемелі қозғалыс кезіндегі дененің үдеуін анықтау</h3>
+<p>
+Дене бастапқы жылдамдықпен қозғалады және оған тұрақты үдеу әсер етеді.
+Жылдамдық пен уақытты өзгерте отырып, қозғалыстың траекториясын бақылауға болады.
+</p>
+
+<div class="lab-grid">
+<canvas id="lab1"></canvas>
+
+<div class="controls">
+<div class="control">
+<label>Бастапқы жылдамдық v₀: <span id="v0Val">5</span> м/с</label>
+<input id="v0" type="range" min="0" max="20" value="5">
+</div>
+
+<div class="control">
+<label>Үдеу a: <span id="aVal">2</span> м/с²</label>
+<input id="acc" type="range" min="-5" max="5" step=".1" value="2">
+</div>
+
+<div class="control">
+<label>Уақыт t: <span id="tVal">5</span> с</label>
+<input id="time1" type="range" min="1" max="10" step=".1" value="5">
+</div>
+
+<div class="formula">v = v₀ + at</div>
+<div class="formula">s = v₀t + at²/2</div>
+
+<div class="result" id="res1"></div>
+<button class="btn" onclick="resetLab1()">Қайта бастау</button>
+</div>
+</div>
+</div>
+
+<div class="lab">
+<h3>2. Горизонталь лақтырылған дененің қозғалысын зерделеу</h3>
+<p>
+Дене белгілі бір биіктіктен горизонталь бағытта лақтырылады.
+Ауырлық күші әсерінен оның траекториясы парабола болады.
+</p>
+
+<div class="lab-grid">
+<canvas id="lab2"></canvas>
+
+<div class="controls">
+<div class="control">
+<label>Биіктік h: <span id="hVal">10</span> м</label>
+<input id="height" type="range" min="2" max="20" value="10">
+</div>
+
+<div class="control">
+<label>Бастапқы жылдамдық v₀: <span id="vxVal">8</span> м/с</label>
+<input id="vx" type="range" min="1" max="20" value="8">
+</div>
+
+<div class="formula">x = v₀t</div>
+<div class="formula">y = gt²/2</div>
+<div class="formula">t = √(2h/g)</div>
+
+<div class="result" id="res2"></div>
+<button class="btn" onclick="resetLab2()">Қайта бастау</button>
+</div>
+</div>
+</div>
+
+<div class="lab">
+<h3>3. Математикалық маятник көмегімен g анықтау</h3>
+<p>
+Маятниктің тербеліс периоды оның ұзындығына тәуелді.
+Ұзындықты өзгерту арқылы периодтың қалай өзгеретінін бақылаңыз.
+</p>
+
+<div class="lab-grid">
+<canvas id="lab3"></canvas>
+
+<div class="controls">
+<div class="control">
+<label>Маятник ұзындығы L: <span id="lVal">1.0</span> м</label>
+<input id="length" type="range" min=".3" max="2" step=".1" value="1">
+</div>
+
+<div class="control">
+<label>Амплитуда: <span id="ampVal">30</span>°</label>
+<input id="amp" type="range" min="5" max="45" value="30">
+</div>
+
+<div class="formula">T = 2π√(L/g)</div>
+<div class="formula">g = 4π²L/T²</div>
+
+<div class="result" id="res3"></div>
+<button class="btn" onclick="resetLab3()">Қайта бастау</button>
+</div>
+</div>
+</div>
+
+<div class="lab">
+<h3>4. Беттік толқындардың тарау жылдамдығын анықтау</h3>
+<p>
+Беттік толқындар сұйық бетінде таралады.
+Толқын ұзындығы мен жиілікті өзгерте отырып, толқын қозғалысын бақылаңыз.
+</p>
+
+<div class="lab-grid">
+<canvas id="lab4"></canvas>
+
+<div class="controls">
+<div class="control">
+<label>Толқын ұзындығы λ: <span id="lambdaVal">2.0</span> м</label>
+<input id="lambda" type="range" min=".5" max="5" step=".1" value="2">
+</div>
+
+<div class="control">
+<label>Жиілік f: <span id="freqVal">1.0</span> Гц</label>
+<input id="freq" type="range" min=".2" max="3" step=".1" value="1">
+</div>
+
+<div class="control">
+<label>Амплитуда A: <span id="waveAmpVal">0.5</span> м</label>
+<input id="waveAmp" type="range" min=".1" max="1" step=".1" value=".5">
+</div>
+
+<div class="formula">v = λf</div>
+
+<div class="result" id="res4"></div>
+<button class="btn" onclick="resetLab4()">Қайта бастау</button>
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="test">
+<h2 class="section-title">Физика тесті</h2>
+<p class="section-sub">Біліміңді тексер</p>
+
+<div class="test-box" id="testBox"></div>
+</section>
+
+</main>
+
+<footer>
+<p><strong>"Үшқоңыр орта мектеп-гимназиясы" КММ</strong></p>
+<p>"Алимжанова Айжан Абдиканиевна"</p>
+<br>
+<p>Сайт авторлары: Маман Иманғали Тоқберген Балым</p>
+<p>© 2026 PHYSLAB AI — Физикалық зертхана</p>
+</footer>
+
+<script>
+
+/* =========================
+   ТАҚЫРЫПТАР
+========================= */
+
+const topics = [
+
+{
+title:"1. Физикаға кіріспе. Физикалық шамалар",
+text:`
+<p>Физика — табиғаттағы құбылыстарды, денелердің қозғалысын, өзара әсерлесуін және энергияның түрленуін зерттейтін ғылым.</p>
+<div class="formula">Халықаралық SI жүйесі: ұзындық — метр (м), масса — килограмм (кг), уақыт — секунд (с).</div>
+<p>Физикалық шама сандық мәнмен және өлшем бірлікпен сипатталады.</p>
+<div class="note">Мысалы: дененің ұзындығы 5 м, массасы 3 кг, уақыты 10 с.</div>
+`
+},
+
+{
+title:"2. Механикалық қозғалыс",
+text:`
+<p>Механикалық қозғалыс — дененің басқа денелерге қатысты уақыт бойынша орнын өзгертуі.</p>
+<p>Қозғалысты сипаттау үшін траектория, жол және орын ауыстыру ұғымдары қолданылады.</p>
+<div class="formula">s — жүрілген жол, м</div>
+<div class="formula">Δr — орын ауыстыру, м</div>
+<p>Траектория — дене қозғалған кезде қалдыратын сызық.</p>
+`
+},
+
+{
+title:"3. Жылдамдық және бірқалыпты қозғалыс",
+text:`
+<p>Жылдамдық дененің белгілі уақыт ішінде қаншалықты қашықтық жүргенін көрсетеді.</p>
+<div class="formula">v = s/t</div>
+<ul>
+<li>v — жылдамдық, м/с</li>
+<li>s — жол, м</li>
+<li>t — уақыт, с</li>
+</ul>
+<p>Бірқалыпты қозғалыста жылдамдық тұрақты болады.</p>
+<div class="formula">s = vt</div>
+`
+},
+
+{
+title:"4. Теңүдемелі қозғалыс және үдеу",
+text:`
+<p>Үдеу — жылдамдықтың уақыт бойынша өзгеру шапшаңдығын сипаттайтын физикалық шама.</p>
+<div class="formula">a = (v - v₀)/t</div>
+<div class="formula">v = v₀ + at</div>
+<div class="formula">s = v₀t + at²/2</div>
+<ul>
+<li>a — үдеу, м/с²</li>
+<li>v₀ — бастапқы жылдамдық, м/с</li>
+<li>v — соңғы жылдамдық, м/с</li>
+</ul>
+`
+},
+
+{
+title:"5. Масса және тығыздық",
+text:`
+<p>Масса — дененің инерттілігін сипаттайтын физикалық шама.</p>
+<p>Тығыздық дененің бірлік көлеміне келетін массаны көрсетеді.</p>
+<div class="formula">ρ = m/V</div>
+<ul>
+<li>ρ — тығыздық, кг/м³</li>
+<li>m — масса, кг</li>
+<li>V — көлем, м³</li>
+</ul>
+<div class="formula">m = ρV</div>
+`
+},
+
+{
+title:"6. Күш және Ньютон заңдары",
+text:`
+<p>Күш — денелердің өзара әсерлесуін сипаттайтын векторлық физикалық шама.</p>
+<div class="formula">F = ma</div>
+<p>Ньютонның екінші заңы бойынша денеге әсер ететін қорытқы күш денеге үдеу береді.</p>
+<p>Ньютонның бірінші заңы: қорытқы күш нөл болса, дене тыныштық күйін немесе бірқалыпты түзу сызықты қозғалысын сақтайды.</p>
+<p>Ньютонның үшінші заңы: әрекет пен қарсы әрекет күштері модульдері бойынша тең, бағыттары қарама-қарсы.</p>
+`
+},
+
+{
+title:"7. Ауырлық күші және салмақ",
+text:`
+<p>Жер денелерді өзіне тартады. Осы әсерден пайда болатын күш ауырлық күші деп аталады.</p>
+<div class="formula">Fау = mg</div>
+<p>g ≈ 9,8 м/с² — еркін түсу үдеуі.</p>
+<p>Дененің салмағы тірекке немесе аспаға түсіретін күшпен байланысты.</p>
+`
+},
+
+{
+title:"8. Үйкеліс күші",
+text:`
+<p>Үйкеліс күші денелердің бір-біріне қатысты қозғалысына кедергі жасайды.</p>
+<div class="formula">Fүйк = μN</div>
+<ul>
+<li>μ — үйкеліс коэффициенті</li>
+<li>N — тіректің реакция күші</li>
+</ul>
+<p>Үйкеліс тыныштық, сырғанау және домалау үйкелісі түрінде кездеседі.</p>
+`
+},
+
+{
+title:"9. Қысым",
+text:`
+<p>Қысым — бетке перпендикуляр бағытталған күштің сол беттің ауданына қатынасы.</p>
+<div class="formula">p = F/S</div>
+<p>Қысымның SI жүйесіндегі өлшем бірлігі — паскаль (Па).</p>
+<p>Аудан азайған сайын бірдей күш кезінде қысым артады.</p>
+`
+},
+
+{
+title:"10. Архимед күші",
+text:`
+<p>Сұйыққа немесе газға батырылған денеге жоғары бағытталған кері итеруші күш әсер етеді.</p>
+<div class="formula">F_A = ρgV</div>
+<ul>
+<li>ρ — сұйықтың немесе газдың тығыздығы</li>
+<li>V — ығыстырылған сұйық көлемі</li>
+</ul>
+`
+},
+
+{
+title:"11. Механикалық жұмыс және қуат",
+text:`
+<p>Күш әсерінен дене орын ауыстырса, механикалық жұмыс атқарылады.</p>
+<div class="formula">A = Fs cosα</div>
+<p>Күш қозғалыс бағытымен бағыттас болса:</p>
+<div class="formula">A = Fs</div>
+<p>Қуат жұмыстың орындалу жылдамдығын көрсетеді.</p>
+<div class="formula">P = A/t</div>
+`
+},
+
+{
+title:"12. Энергия",
+text:`
+<p>Энергия — дененің жұмыс атқара алу қабілетін сипаттайтын физикалық шама.</p>
+<p>Кинетикалық энергия қозғалыстағы денеге тән:</p>
+<div class="formula">Eк = mv²/2</div>
+<p>Потенциалдық энергия дененің орналасуына байланысты:</p>
+<div class="formula">Eп = mgh</div>
+<p>Энергия жойылмайды және жоқтан пайда болмайды, тек бір түрден екінші түрге айналады.</p>
+`
+},
+
+{
+title:"13. ПӘК және қарапайым механизмдер",
+text:`
+<p>Пайдалы әсер коэффициенті механизмнің қаншалықты тиімді жұмыс істейтінін көрсетеді.</p>
+<div class="formula">η = Aпайдалы/Aтолық · 100%</div>
+<p>Иінтірек, блок және көлбеу жазықтық сияқты механизмдер күштен немесе жолдан ұтыс алуға мүмкіндік береді.</p>
+`
+},
+
+{
+title:"14. Жылу құбылыстары",
+text:`
+<p>Дененің ішкі энергиясы оның бөлшектерінің қозғалысы мен өзара әсерлесу энергияларынан тұрады.</p>
+<p>Ішкі энергия жұмыс жасау немесе жылу беру арқылы өзгеруі мүмкін.</p>
+<p>Температура дененің жылулық күйін сипаттайды.</p>
+`
+},
+
+{
+title:"15. Жылу берілу түрлері",
+text:`
+<p>Жылу үш негізгі жолмен беріледі:</p>
+<ul>
+<li>Жылуөткізгіштік</li>
+<li>Конвекция</li>
+<li>Сәулелену</li>
+</ul>
+<p>Металдар жылуды жақсы өткізеді, ал ауа сияқты газдар жылуды нашар өткізеді.</p>
+`
+},
+
+{
+title:"16. Жылу мөлшері",
+text:`
+<p>Денені қыздыру немесе салқындату кезінде алынатын немесе берілетін жылу мөлшері:</p>
+<div class="formula">Q = cmΔT</div>
+<ul>
+<li>Q — жылу мөлшері, Дж</li>
+<li>c — меншікті жылусыйымдылық, Дж/(кг·°C)</li>
+<li>m — масса, кг</li>
+<li>ΔT — температура өзгерісі</li>
+</ul>
+`
+},
+
+{
+title:"17. Балқу, қатаю, булану және конденсация",
+text:`
+<p>Балқу — қатты дененің сұйыққа айналуы. Қатаю — кері процесс.</p>
+<p>Булану — сұйықтың беткі қабатынан газға айналуы.</p>
+<p>Конденсация — будың сұйыққа айналуы.</p>
+<div class="formula">Q = λm</div>
+<p>Бұл формула балқу немесе қатаю кезіндегі жылу мөлшерін есептеуге қолданылады.</p>
+`
+},
+
+{
+title:"18. Электр заряды",
+text:`
+<p>Электр заряды денелердің электромагниттік өзара әсерлесуін сипаттайды.</p>
+<p>Зарядтың екі түрі бар: оң және теріс.</p>
+<p>Бір аттас зарядтар тебіледі, әр аттас зарядтар тартылады.</p>
+<div class="formula">q — электр заряды, Кл</div>
+`
+},
+
+{
+title:"19. Электр тогы",
+text:`
+<p>Электр тогы — зарядталған бөлшектердің реттелген қозғалысы.</p>
+<div class="formula">I = q/t</div>
+<ul>
+<li>I — ток күші, А</li>
+<li>q — заряд, Кл</li>
+<li>t — уақыт, с</li>
+</ul>
+`
+},
+
+{
+title:"20. Кернеу және электр кедергісі",
+text:`
+<p>Кернеу электр өрісінің зарядты орын ауыстырғанда атқаратын жұмысын сипаттайды.</p>
+<div class="formula">U = A/q</div>
+<p>Кедергі өткізгіштің токқа қарсыласуын көрсетеді.</p>
+<div class="formula">R — Ом</div>
+`
+},
+
+{
+title:"21. Ом заңы",
+text:`
+<p>Тізбек бөлігіндегі ток күші кернеуге тура, ал кедергіге кері пропорционал.</p>
+<div class="formula">I = U/R</div>
+<div class="formula">U = IR</div>
+<div class="formula">R = U/I</div>
+`
+},
+
+{
+title:"22. Өткізгіштерді жалғау",
+text:`
+<p>Тізбектей жалғауда ток күші барлық элементте бірдей болады.</p>
+<div class="formula">R = R₁ + R₂ + ...</div>
+<p>Параллель жалғауда кернеу тармақтарда бірдей.</p>
+<div class="formula">1/R = 1/R₁ + 1/R₂ + ...</div>
+`
+},
+
+{
+title:"23. Электр жұмысы және қуаты",
+text:`
+<p>Электр тогының жұмысы:</p>
+<div class="formula">A = UIt</div>
+<p>Электр тогының қуаты:</p>
+<div class="formula">P = UI</div>
+<p>Электр энергиясының өлшем бірлігі — джоуль, тұрмыста киловатт-сағат та қолданылады.</p>
+`
+},
+
+{
+title:"24. Механикалық тербелістер",
+text:`
+<p>Тербелмелі қозғалыс — дененің тепе-теңдік күйінің маңында қайталанатын қозғалысы.</p>
+<p>Период — бір толық тербеліске кететін уақыт.</p>
+<div class="formula">T = t/N</div>
+<p>Жиілік:</p>
+<div class="formula">f = N/t = 1/T</div>
+`
+},
+
+{
+title:"25. Математикалық маятник",
+text:`
+<p>Математикалық маятник — ұзындығы L жіпке ілінген кішкентай дене ретінде қарастырылатын идеалданған жүйе.</p>
+<div class="formula">T = 2π√(L/g)</div>
+<p>Маятниктің ұзындығы артқан сайын оның периоды да артады.</p>
+`
+},
+
+{
+title:"26. Толқындық қозғалыс",
+text:`
+<p>Толқын — тербелістің кеңістікте таралу процесі.</p>
+<div class="formula">v = λf</div>
+<ul>
+<li>v — толқын жылдамдығы</li>
+<li>λ — толқын ұзындығы</li>
+<li>f — жиілік</li>
+</ul>
+`
+},
+
+{
+title:"27. Беттік толқындар",
+text:`
+<p>Беттік толқындар сұйықтықтың бетінде таралады.</p>
+<p>Толқын ұзындығы — бірдей фазада тербелетін көршілес нүктелер арасындағы қашықтық.</p>
+<div class="formula">v = λf</div>
+`
+},
+
+{
+title:"28. Дыбыс",
+text:`
+<p>Дыбыс — серпімді ортада таралатын механикалық толқын.</p>
+<p>Дыбыстың негізгі сипаттамалары: жиілік, амплитуда және дыбыс жылдамдығы.</p>
+<p>Жиілік артса, дыбыс жоғарырақ болып естіледі.</p>
+`
+},
+
+{
+title:"29. Жарықтың шағылуы",
+text:`
+<p>Жарық сәулесі айна немесе басқа бетке түскен кезде шағылуы мүмкін.</p>
+<p>Шағылу заңына сәйкес түсу бұрышы шағылу бұрышына тең.</p>
+<div class="formula">α = β</div>
+`
+},
+
+{
+title:"30. Жарықтың сынуы",
+text:`
+<p>Жарық бір ортадан екінші ортаға өткенде таралу бағыты өзгеруі мүмкін.</p>
+<p>Бұл құбылыс жарықтың сынуы деп аталады.</p>
+<p>Сыну мөлшері ортаның оптикалық қасиеттеріне байланысты.</p>
+`
+},
+
+{
+title:"31. Линзалар",
+text:`
+<p>Линза — жарықты сындыру арқылы кескін алуға мүмкіндік беретін оптикалық дене.</p>
+<p>Жинағыш линза параллель сәулелерді фокусқа жинайды.</p>
+<p>Оптикалық күш:</p>
+<div class="formula">D = 1/F</div>
+<p>F — фокустық қашықтық, метрмен.</p>
+`
+},
+
+{
+title:"32. Импульс және оның сақталу заңы",
+text:`
+<p>Дененің импульсі оның массасы мен жылдамдығының көбейтіндісіне тең.</p>
+<div class="formula">p = mv</div>
+<p>Тұйық жүйеде денелер импульстерінің векторлық қосындысы сақталады.</p>
+<div class="formula">Σpбастапқы = Σpсоңғы</div>
+`
+},
+
+{
+title:"33. Бүкіләлемдік тартылыс заңы",
+text:`
+<p>Кез келген екі дене бір-бірін тартады.</p>
+<div class="formula">F = Gm₁m₂/r²</div>
+<p>Күш денелер массаларының көбейтіндісіне тура, ал арақашықтық квадратына кері пропорционал.</p>
+`
+},
+
+{
+title:"34. Атом құрылысы",
+text:`
+<p>Атом ядродан және электрондардан тұрады. Ядрода протондар мен нейтрондар орналасады.</p>
+<p>Протонның заряды оң, электронның заряды теріс, нейтрон электрлік бейтарап.</p>
+`
+},
+
+{
+title:"35. Радиоактивтілік",
+text:`
+<p>Радиоактивтілік — кейбір тұрақсыз атом ядроларының өздігінен сәуле шығарып түрлену құбылысы.</p>
+<p>Негізгі сәулелер: α, β және γ.</p>
+<p>Радиациямен жұмыс кезінде қауіпсіздік ережелерін сақтау өте маңызды.</p>
+`
+}
+
+];
+
+const topicList=document.getElementById("topicList");
+
+topics.forEach((t,i)=>{
+const box=document.createElement("div");
+box.className="topic";
+box.innerHTML=`
+<button onclick="toggleTopic(${i})">${t.title}</button>
+<div class="topic-content" id="topic-${i}">${t.text}</div>
+`;
+topicList.appendChild(box);
+});
+
+function toggleTopic(i){
+document.getElementById("topic-"+i).classList.toggle("open");
+}
+
+/* =========================
+   CANVAS ENGINE
+========================= */
+
+function setupCanvas(id){
+const c=document.getElementById(id);
+const ctx=c.getContext("2d");
+
+function resize(){
+const dpr=window.devicePixelRatio||1;
+const rect=c.getBoundingClientRect();
+c.width=rect.width*dpr;
+c.height=rect.height*dpr;
+ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+resize();
+window.addEventListener("resize",resize);
+
+return {c,ctx};
+}
+
+function clear(ctx,c){
+ctx.clearRect(0,0,c.clientWidth,c.clientHeight);
+ctx.fillStyle="#020711";
+ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
+}
+
+function grid(ctx,c){
+ctx.strokeStyle="rgba(40,200,240,.09)";
+ctx.lineWidth=1;
+
+for(let x=0;x<c.clientWidth;x+=35){
+ctx.beginPath();
+ctx.moveTo(x,0);
+ctx.lineTo(x,c.clientHeight);
+ctx.stroke();
+}
+
+for(let y=0;y<c.clientHeight;y+=35){
+ctx.beginPath();
+ctx.moveTo(0,y);
+ctx.lineTo(c.clientWidth,y);
+ctx.stroke();
+}
+}
+
+function circle(ctx,x,y,r,fill="#42e8ff"){
+ctx.beginPath();
+ctx.arc(x,y,r,0,Math.PI*2);
+ctx.fillStyle=fill;
+ctx.fill();
+}
+
+function text(ctx,str,x,y,size=16){
+ctx.fillStyle="#dff7ff";
+ctx.font=`${size}px Arial`;
+ctx.fillText(str,x,y);
+}
+
+/* =========================
+   LAB 1
+========================= */
+
+const L1=setupCanvas("lab1");
+let lab1Start=performance.now();
+
+function drawLab1(now){
+const {c,ctx}=L1;
+clear(ctx,c);
+grid(ctx,c);
+
+const v0=+document.getElementById("v0").value;
+const a=+document.getElementById("acc").value;
+const tmax=+document.getElementById("time1").value;
+
+const t=((now-lab1Start)/1000)%tmax;
+const s=v0*t+.5*a*t*t;
+
+const scale=8;
+let x=70+s*scale;
+if(x>c.clientWidth-50)x=70;
+
+ctx.strokeStyle="#42e8ff";
+ctx.lineWidth=3;
+ctx.beginPath();
+ctx.moveTo(50,c.clientHeight/2+50);
+ctx.lineTo(c.clientWidth-30,c.clientHeight/2+50);
+ctx.stroke();
+
+circle(ctx,x,c.clientHeight/2+20,18);
+
+text(ctx,"Қозғалып жатқан дене",20,35,17);
+text(ctx,`t = ${t.toFixed(1)} с`,20,60);
+text(ctx,`s = ${s.toFixed(2)} м`,20,85);
+
+document.getElementById("res1").innerHTML=
+`Соңғы орын ауыстыру: <b>${(v0*tmax+.5*a*tmax*tmax).toFixed(2)} м</b><br>
+Соңғы жылдамдық: <b>${(v0+a*tmax).toFixed(2)} м/с</b>`;
+}
+
+function resetLab1(){
+lab1Start=performance.now();
+}
+
+["v0","acc","time1"].forEach(id=>{
+document.getElementById(id).addEventListener("input",()=>{
+document.getElementById("v0Val").textContent=document.getElementById("v0").value;
+document.getElementById("aVal").textContent=document.getElementById("acc").value;
+document.getElementById("tVal").textContent=document.getElementById("time1").value;
+});
+});
+
+/* =========================
+   LAB 2
+========================= */
+
+const L2=setupCanvas("lab2");
+let lab2Start=performance.now();
+
+function drawLab2(now){
+const {c,ctx}=L2;
+clear(ctx,c);
+grid(ctx,c);
+
+const h=+document.getElementById("height").value;
+const vx=+document.getElementById("vx").value;
+const g=9.8;
+
+const total=Math.sqrt(2*h/g);
+const t=((now-lab2Start)/1000)%total;
+
+const x=vx*t;
+const y=.5*g*t*t;
+
+const ground=c.clientHeight-50;
+const top=45;
+const heightPx=ground-top;
+
+ctx.strokeStyle="#557080";
+ctx.lineWidth=2;
+ctx.beginPath();
+ctx.moveTo(35,ground);
+ctx.lineTo(c.clientWidth-25,ground);
+ctx.stroke();
+
+ctx.strokeStyle="#42e8ff";
+ctx.lineWidth=2;
+ctx.beginPath();
+
+for(let i=0;i<=100;i++){
+const tt=total*i/100;
+const xx=80+vx*tt*15;
+const yy=top+(h*.5*g*tt*tt/h)*heightPx;
+
+if(i===0)ctx.moveTo(xx,yy);
+else ctx.lineTo(xx,yy);
+}
+ctx.stroke();
+
+const bx=80+x*15;
+const by=top+(y/h)*heightPx;
+
+circle(ctx,bx,by,12);
+
+text(ctx,"Параболалық траектория",20,30,17);
+text(ctx,`t = ${t.toFixed(2)} с`,20,55);
+text(ctx,`x = ${x.toFixed(2)} м`,20,80);
+text(ctx,`y = ${y.toFixed(2)} м`,20,105);
+
+document.getElementById("res2").innerHTML=
+`Ұшу уақыты: <b>${total.toFixed(2)} с</b><br>
+Ұшу қашықтығы: <b>${(vx*total).toFixed(2)} м</b>`;
+}
+
+function resetLab2(){
+lab2Start=performance.now();
+}
+
+["height","vx"].forEach(id=>{
+document.getElementById(id).addEventListener("input",()=>{
+document.getElementById("hVal").textContent=document.getElementById("height").value;
+document.getElementById("vxVal").textContent=document.getElementById("vx").value;
+});
+});
+
+/* =========================
+   LAB 3
+========================= */
+
+const L3=setupCanvas("lab3");
+let lab3Start=performance.now();
+
+function drawLab3(now){
+const {c,ctx}=L3;
+clear(ctx,c);
+grid(ctx,c);
+
+const L=+document.getElementById("length").value;
+const amp=+document.getElementById("amp").value*Math.PI/180;
+const g=9.8;
+
+const T=2*Math.PI*Math.sqrt(L/g);
+const time=(now-lab3Start)/1000;
+
+const angle=amp*Math.sin(2*Math.PI*time/T);
+
+const pivotX=c.clientWidth/2;
+const pivotY=45;
+const rope=120+L*45;
+
+const bobX=pivotX+Math.sin(angle)*rope;
+const bobY=pivotY+Math.cos(angle)*rope;
+
+ctx.strokeStyle="#9eefff";
+ctx.lineWidth=4;
+
+ctx.beginPath();
+ctx.moveTo(pivotX,pivotY);
+ctx.lineTo(bobX,bobY);
+ctx.stroke();
+
+circle(ctx,pivotX,pivotY,8);
+circle(ctx,bobX,bobY,22);
+
+text(ctx,"Математикалық маятник",20,30,17);
+text(ctx,`T = ${T.toFixed(2)} с`,20,60);
+text(ctx,`g = ${g.toFixed(2)} м/с²`,20,85);
+
+document.getElementById("res3").innerHTML=
+`Период: <b>${T.toFixed(2)} с</b><br>
+Есептелген g: <b>${g.toFixed(2)} м/с²</b>`;
+}
+
+function resetLab3(){
+lab3Start=performance.now();
+}
+
+["length","amp"].forEach(id=>{
+document.getElementById(id).addEventListener("input",()=>{
+document.getElementById("lVal").textContent=document.getElementById("length").value;
+document.getElementById("ampVal").textContent=document.getElementById("amp").value;
+});
+});
+
+/* =========================
+   LAB 4
+========================= */
+
+const L4=setupCanvas("lab4");
+let waveTime=0;
+
+function drawLab4(){
+const {c,ctx}=L4;
+clear(ctx,c);
+grid(ctx,c);
+
+const lambda=+document.getElementById("lambda").value;
+const f=+document.getElementById("freq").value;
+const A=+document.getElementById("waveAmp").value;
+
+waveTime+=.035;
+
+const center=c.clientHeight/2;
+
+ctx.strokeStyle="#42e8ff";
+ctx.lineWidth=3;
+ctx.beginPath();
+
+for(let x=0;x<c.clientWidth;x++){
+const y=center+
+Math.sin(x/(lambda*25)-waveTime*f*2)*A*80;
+
+if(x===0)ctx.moveTo(x,y);
+else ctx.lineTo(x,y);
+}
+
+ctx.stroke();
+
+for(let x=0;x<c.clientWidth;x+=35){
+const y=center+
+Math.sin(x/(lambda*25)-waveTime*f*2)*A*80;
+
+circle(ctx,x,y,3);
+}
+
+text(ctx,"Беттік толқын",20,30,17);
+text(ctx,`λ = ${lambda.toFixed(1)} м`,20,60);
+text(ctx,`f = ${f.toFixed(1)} Гц`,20,85);
+
+const v=lambda*f;
+
+document.getElementById("res4").innerHTML=
+`Толқын жылдамдығы: <b>${v.toFixed(2)} м/с</b><br>
+Период: <b>${(1/f).toFixed(2)} с</b>`;
+}
+
+function resetLab4(){
+waveTime=0;
+}
+
+["lambda","freq","waveAmp"].forEach(id=>{
+document.getElementById(id).addEventListener("input",()=>{
+document.getElementById("lambdaVal").textContent=document.getElementById("lambda").value;
+document.getElementById("freqVal").textContent=document.getElementById("freq").value;
+document.getElementById("waveAmpVal").textContent=document.getElementById("waveAmp").value;
+});
+});
+
+/* =========================
+   TEST
+========================= */
+
+const questions=[
+{
+q:"1. Жылдамдықтың формуласы қандай?",
+a:["v=s/t","v=ma","v=IR","v=mg"],
+c:0
+},
+{
+q:"2. Ньютонның екінші заңы:",
+a:["F=ma","p=F/S","Q=cmΔT","I=q/t"],
+c:0
+},
+{
+q:"3. Тығыздықтың формуласы:",
+a:["ρ=m/V","P=A/t","A=Fs","v=λf"],
+c:0
+},
+{
+q:"4. Ом заңы:",
+a:["I=U/R","F=ma","E=mv²/2","T=t/N"],
+c:0
+},
+{
+q:"5. Архимед күшінің формуласы:",
+a:["FA=ρgV","F=ma","A=Fs","p=F/S"],
+c:0
+},
+{
+q:"6. Кинетикалық энергия:",
+a:["Eк=mv²/2","Eп=mgh","Q=cmΔT","P=UI"],
+c:0
+},
+{
+q:"7. Маятниктің периоды:",
+a:["T=2π√(L/g)","T=t/N","T=IR","T=Fs"],
+c:0
+},
+{
+q:"8. Толқын жылдамдығы:",
+a:["v=λf","v=s/t","v=ma","v=mg"],
+c:0
+}
+];
+
+const testBox=document.getElementById("testBox");
+
+questions.forEach((q,i)=>{
+let html=`<div class="question"><b>${q.q}</b>`;
+
+q.a.forEach((ans,j)=>{
+html+=`
+<label>
+<input type="radio" name="q${i}" value="${j}">
+${ans}
+</label>`;
+});
+
+html+="</div>";
+testBox.innerHTML+=html;
+});
+
+testBox.innerHTML+=`
+<button class="btn" onclick="checkTest()">Нәтижені тексеру</button>
+<div id="score"></div>
+`;
+
+function checkTest(){
+let score=0;
+
+questions.forEach((q,i)=>{
+const selected=document.querySelector(`input[name="q${i}"]:checked`);
+if(selected && +selected.value===q.c)score++;
+});
+
+document.getElementById("score").innerHTML=
+`Нәтиже: ${score}/${questions.length}<br>
+${score===questions.length?"Өте жақсы! Барлық жауап дұрыс.":score>=6?"Жақсы нәтиже!":"Тақырыптарды тағы бір қарап шық."}`;
+}
+
+/* =========================
+   MAIN ANIMATION LOOP
+========================= */
+
+function animate(){
+const now=performance.now();
+
+drawLab1(now);
+drawLab2(now);
+drawLab3(now);
+drawLab4();
+
+requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
